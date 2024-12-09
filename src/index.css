@@ -1,0 +1,583 @@
+body{
+        margin:0;
+        padding:0;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+h1{
+                text-align: center;
+                padding:30px;
+                box-sizing: border-box;
+                font-size: 40px;
+                font-weight: 550;
+                font-family: Eras Bold ITC;
+}
+
+hr {
+        background-color: rgb(236, 225, 225);
+}
+
+
+.sect3{
+                text-align:center;
+                margin:0 auto;
+                width:50%;
+                font-style: italic;
+}
+
+.main-upper{
+                padding:5% 0 0 5%;
+                display: inline-flex;
+                justify-content: center;
+                gap: 20%;
+}
+.sect2{
+                padding-top:80px;
+                width: 30%;
+                box-sizing: border-box;
+                text-align:center;
+}
+
+
+
+
+.sub-title {
+        font-size: 20px;
+        font-weight: 900;
+        font-style: italic;
+        word-spacing: 3px;
+        margin-bottom: 50px;
+        
+}
+
+.message {     
+        position:absolute;
+        width:100%;
+        height: 100%;
+        background: rgba(5, 5, 5, 0.8);
+        padding-top: 10%;
+        z-index:10;
+        top:5px;
+        box-sizing: border-box;
+
+
+       
+}
+
+.card{          
+        border-radius: 10px;
+        width: 40%;
+        margin: auto;
+        height: fit-content;
+        box-sizing: border-box;
+        background-color: rgb(220, 236, 220);
+        justify-content: center;
+        padding: 0 10px 0 10px;
+        text-align: center;
+
+}
+
+.card h3{
+                margin:0;
+                
+}
+
+.card button {
+                color: black;
+                padding:10px;
+                background-color: rgb(220, 236, 220);
+        }
+
+.card p {
+                font-size: small;
+}
+
+.ref-button{
+                display: inline-flex;
+                text-align: center;
+                justify-content: center;
+                gap:40px;
+}
+
+ button{
+                background-color: #2da7db;
+                color: white;
+                padding: 10px 2px 10px 2px;
+                border: none;
+                font-size: 20px;
+                cursor: pointer;
+                font-weight: bold;
+                width:60%;
+                box-sizing: border-box;
+                margin-bottom: 20px;
+
+ }
+
+ button:hover{
+                background-color: #61BEE5;
+ }
+
+
+ .anchor{
+                text-align: center;
+                margin-bottom:20px;
+
+                
+ }
+
+ a{
+        color: #2da7db;
+        font-size: 25px;
+ }
+
+ .container{
+                width: 100%;
+                padding:5% 5% 5% 10%;
+                box-sizing:border-box;
+                display:inline-flex;
+                color:rgb(8, 8, 8);
+ }
+ol{
+        text-align: left;                
+}
+ li{
+        list-style:decimal;
+        margin-bottom: 10px;
+ }
+
+ .close{
+                margin: 0px 0px 0px 0px;
+                text-align: center;
+                width: 20px;
+                margin-left: 140px;
+                font-size: small;
+                height: fit-content;
+                padding: 0px 0px 0px 0px;
+                border-radius: 100%;
+               
+ }
+
+ .close:hover{
+                 background-color: rgb(220, 236, 220);
+                 border-bottom: red;
+ }
+
+ .confirm {
+                display:inline-flex;
+                width: 100%;
+                padding-left:60px;
+                box-sizing: border-box;
+ }
+
+ a{
+        font-size:medium;
+        text-decoration: none;
+        font-style: normal;
+ }
+
+
+.steps {
+                text-align:left;
+}
+
+.steps p {       
+                font-size: medium;
+                font-style:normal;
+}
+
+.concept p, .how p, .purpose li, .align p{
+                text-align: left;
+                font-style: normal;
+                font-size:medium;
+}
+
+.tips{
+                margin-top:-80px;
+                width: 60%;
+                text-align: center;
+                display: block;
+                position: absolute;
+}
+ 
+    .side-note{
+                width: 43%;
+    }
+
+    p{
+        font-size: 25px;
+        
+    }
+    
+    footer{
+                width: 100%;
+                text-align: center;
+                background-color:#29ABE2;
+                padding: 10px;
+                box-sizing: border-box;
+    }
+
+    footer a{
+                color:white;
+    }
+    
+    
+    header{
+                width: 100%;
+                padding: 40px;
+                box-sizing: border-box;
+                background-color: #29ABE2;
+                color:white;
+                font-size: 60px;
+                font-weight: bolder;
+                text-align: center;
+                
+}
+
+.title {
+                text-align: center;
+                font-style: italic;
+                margin-bottom: 0px;
+}
+
+.mean {
+               padding: 0px 0px 0px 15%;
+}
+
+.mean p{
+        font-size: medium;
+        font-style: italic;
+        font-weight: bolder;
+}
+
+span {
+                display:inline-flex;
+                border:1px solid black;
+                font-size: medium;
+                padding: 15px;
+                width:50px;
+                text-align: center;
+                box-sizing: border-box;
+                cursor: pointer;
+                border-radius: 5px;
+                margin-right: 30px;
+                margin-bottom: 30px;
+}
+
+.section{
+                text-align: center;
+}
+
+.section ol {
+                text-align: center;
+}
+
+.question-answer {
+        margin-top: 30px;
+        padding-bottom: 30px;
+        margin-bottom: 50px;
+}
+
+.pq{
+        font-size: large;
+}
+
+.foot{
+        position: fixed;
+        bottom: 0;
+}
+
+.select {
+        position:absolute;
+        margin:10px 0px 0px 5px;
+        padding: 10px 15px 10px 15px;
+        font-size: medium;
+        font-weight: bold;
+        height: fit-content;
+        border: 1px solid black;
+        border-radius: 5px;
+        width: 80px;
+        color:white;
+        background-color: #050505;
+        cursor: pointer;
+        
+}
+
+
+.select:hover {
+                color:black;
+                background-color: rgb(220, 236, 220);
+
+}
+
+.ref-button .prev:hover, .ref-button .next:hover {
+        background-color: rgb(220, 236, 220);
+        color: white;
+}  
+
+
+.result{
+            display: inline-flex;
+            width: 98%;
+            padding-left:10%;
+            box-sizing: border-box;
+}
+
+.chart{
+            padding-top:50px;
+            font-size: medium;
+
+}
+
+table{
+        margin-bottom: 30px;
+}
+th{
+        text-align: left;   
+}
+td, th{
+        margin-bottom: 10px;
+        padding:10px 10px 10px 0;
+}
+
+.below{
+        text-align: center;
+        gap: 10px;
+        margin-bottom: 30px;
+}
+
+.observe {
+               font-size: medium;
+                text-align: center;
+                font-style: italic;
+}
+
+.card h5 {
+                font-weight: lighter;
+}
+
+.observe li{
+        text-align: left;
+        margin:0 auto;
+        width: 70%;
+        margin-bottom: 10px;
+        font-style: normal;
+        
+}
+
+.email{
+                justify-content: center;
+                text-align: center;
+}
+
+.email button{
+                width: 50%;
+                padding: 20px;
+}
+
+.email input {
+                padding: 10px;
+                margin-left:20px;
+                margin-bottom: 30px;
+
+}
+.save{
+        border:none;
+        border-bottom: 1px solid blue;
+        background-color: white;
+        color:blue;
+        width:100px;
+        font-size: medium;
+        padding: 0 0 0 0;
+        
+}
+
+.save:hover{
+        background-color: white;
+}
+
+
+
+tr td+td{
+            text-align: center;
+}
+
+.chartdiv {
+                width: 500px; 
+                height: 500px;
+}
+
+.prev, .next{
+        background-color: white;
+        width: fit-content;
+        margin-top: 30px;
+        height: fit-content;
+
+
+}
+
+#myButton {
+                color:rgb(220, 236, 220);
+                background-color: rgb(220, 236, 220);
+
+}
+
+#mybutton:hover{
+        background-color: rgb(220, 236, 220);
+}
+
+.prev img{
+                width: 30px;
+                height: 30px;
+}
+
+.next img{
+        width: 26px;
+        height: 26px;
+}
+
+
+.prev:hover, .next:hover{
+                background-color: white;
+}
+.carousel{
+                margin-top: -100px;
+                display: inline-flex;
+                justify-content: center;
+                width:70%;
+                margin-bottom: 50px;
+}
+
+.carousel-content {
+                        width: 50%;
+                        background-color:#EEE;
+                        padding:10px;
+                        height:100px;
+                        padding-bottom: 0px;
+                        box-sizing: border-box;
+                        display: flex;  
+                        justify-content: center;  
+                        align-items: center;   
+}
+
+.message h2{
+                font-size: large;
+}
+
+.range input{
+                width: 50%;
+}
+
+
+@media only screen and (max-width: 1024px) {
+    .main-upper {
+                     display: block;
+                     padding:10% 0 0 5%;
+                     align-items: center;
+                     text-align: center;
+                
+    }
+
+    .sect2{
+                width: 100%;
+                padding-top:10px;
+                padding-right: 20px;
+                box-sizing: border-box;
+    }
+
+
+    .container {
+                     display: block;
+    }
+
+    .side-note {
+                     width: 100%;
+    }
+
+    .sect-1 img{
+                     height: 200px;
+                      width:200px;
+}
+        button{
+                        width: 60%;
+                        font-size: small;
+        }
+         .result{
+            display: block;
+            padding-left:15px;
+         }
+
+            td{
+                    text-align:left;
+            }
+
+           
+
+.chartdiv {
+        width: 300px; 
+        height: 300px;
+}
+
+.carousel {     
+                        width: 100%;
+                        margin-left:-10px;
+                        box-sizing: border-box;
+}
+
+.carousel-content{
+                width: 80%;
+                height: fit-content;
+                padding-bottom: 10px;
+}
+
+.sect3 {
+                width: 80%;
+}
+        .tips{
+                width: 80%;
+        }
+
+        .card {
+                 width:80%;
+        }
+
+        .ref-button {
+                        gap:60px;
+        }
+
+        .message {
+                        width:100%;
+                        height: 100%;
+        }
+
+        header {
+                        font-size: x-large;
+        }
+
+        .confirm {
+                        padding-left: 10px;
+                        text-align: center;
+        }
+        .confirm h2{
+                        font-size: 15px;
+
+        }
+
+        .close{
+                        margin-left: 7%;
+                        
+        }
+
+        .section ol {
+                        text-align: left;
+        }
+
+        .range input{
+                width: 70%;
+}
+        .pq{
+                padding: 0 20px;
+        }
+   }
+
+
+   
