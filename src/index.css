@@ -39,7 +39,14 @@ hr {
 }
 
 
-
+      #range {
+        -webkit-appearance: none; /* Remove default styling (WebKit browsers) */
+        height: 6px; /* Track height */
+        background: linear-gradient(to right, #df4d28 0%, #dfd43d 50%, #5ebe26 50%);
+        border-radius: 4px; /* Rounded corners */
+        outline: none; /* Remove outline */
+        width: 50%;
+      }
 
 .sub-title {
         font-size: 20px;
@@ -295,10 +302,11 @@ span {
         height: fit-content;
         border: 1px solid black;
         border-radius: 5px;
-        width: 80px;
+        width: 100px;
         color:white;
         background-color: #050505;
         cursor: pointer;
+        
         
 }
 
