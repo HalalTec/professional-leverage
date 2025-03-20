@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import next from './next.png';
 import back from './back.png'
 
-const Carousel = ({ items, interval = 5000, tips }) => {
+const Carousel = ({ items, interval = 10000, tips }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const nextSlide = () => {
