@@ -238,19 +238,7 @@ const Personal = ({close, msg, submit, quest}) => {
                 'How do you continuously reinvent yourself to ensure you stay on the cutting edge of your field and leadership capabilities?',
                 'Are you actively mentoring and guiding others on their growth journeys, shaping the future of your organization and community?'
             ]
-        },
-        {
-            score: 10,
-            indication: 'Exceptional spiritual connection, profound inner peace, complete alignment with purpose, deeply fulfilling spiritual practices, strong sense of transcendence.',
-            reflectiveQuestions: [
-                'Do you feel a profound, unbreakable connection to your spirituality and purpose?',
-                'Are you consistently at peace, with a deep sense of fulfillment and clarity?',
-                'Does your spirituality define and elevate your daily life?'
-
-
-            ]
         }
-
       ];
 
       const nextSlide = () => {
