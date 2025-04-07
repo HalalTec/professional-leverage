@@ -216,17 +216,6 @@ const Business = ({close, msg, submit, quest}) => {
                 'Am I already acting in capacities that resemble a C-suite role?',
                 'Do I have the reputation, skillset, and network to succeed at the highest level of leadership?'
             ]
-        },
-        {
-            score: 10,
-            indication: 'Exceptional spiritual connection, profound inner peace, complete alignment with purpose, deeply fulfilling spiritual practices, strong sense of transcendence.',
-            reflectiveQuestions: [
-                'Do you feel a profound, unbreakable connection to your spirituality and purpose?',
-                'Are you consistently at peace, with a deep sense of fulfillment and clarity?',
-                'Does your spirituality define and elevate your daily life?'
-
-
-            ]
         }
 
       ];
