@@ -227,19 +227,7 @@ const Cultural = ({close, msg, submit, quest}) => {
                 'Am I recognized as a cultural alignment leader within the organization?',
                 'Can I confidently ensure the organization thrives through cultural integrity in the defined timeframe?'
             ]
-        },
-        {
-            score: 10,
-            indication: 'Exceptional spiritual connection, profound inner peace, complete alignment with purpose, deeply fulfilling spiritual practices, strong sense of transcendence.',
-            reflectiveQuestions: [
-                'Do you feel a profound, unbreakable connection to your spirituality and purpose?',
-                'Are you consistently at peace, with a deep sense of fulfillment and clarity?',
-                'Does your spirituality define and elevate your daily life?'
-
-
-            ]
         }
-
       ];
 
       const nextSlide = () => {
