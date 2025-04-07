@@ -227,19 +227,7 @@ const Mentorship = ({close, msg, submit, quest}) => {
                 'Am I regarded as a key architect of a leadership pipeline in the organization?',
                 'Can I ensure that my mentorship and succession planning impact will continue to benefit the organization beyond the defined timeframe?'
             ]
-        },
-        {
-            score: 10,
-            indication: 'Exceptional spiritual connection, profound inner peace, complete alignment with purpose, deeply fulfilling spiritual practices, strong sense of transcendence.',
-            reflectiveQuestions: [
-                'Do you feel a profound, unbreakable connection to your spirituality and purpose?',
-                'Are you consistently at peace, with a deep sense of fulfillment and clarity?',
-                'Does your spirituality define and elevate your daily life?'
-
-
-            ]
         }
-
       ];
 
       const nextSlide = () => {
