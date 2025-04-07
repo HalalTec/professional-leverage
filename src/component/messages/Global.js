@@ -1,4 +1,4 @@
-import { useState } from "react";
+    import { useState } from "react";
 
 import next from '../next-bt.png';
 import back from '../previous-bt.png'
@@ -196,17 +196,6 @@ const Global = ({close, msg, submit, quest}) => {
             futureQuestions: [
                 'Am I acknowledged as an industry leader in global strategy?',
                 'Can I mentor others and continuously innovate for global impact in the timeframe?'
-            ]
-        },
-        {
-            score: 10,
-            indication: 'Exceptional spiritual connection, profound inner peace, complete alignment with purpose, deeply fulfilling spiritual practices, strong sense of transcendence.',
-            reflectiveQuestions: [
-                'Do you feel a profound, unbreakable connection to your spirituality and purpose?',
-                'Are you consistently at peace, with a deep sense of fulfillment and clarity?',
-                'Does your spirituality define and elevate your daily life?'
-
-
             ]
         }
 
