@@ -193,17 +193,6 @@ const Leader = ({close, msg, submit, quest}) => {
                 'Can I confidently see myself excelling in a C-suite role within the defined timeframe?',
                 'Have I fully developed the skills and mindset to lead at the highest level?'
             ]
-        },
-        {
-            score: 10,
-            indication: 'Exceptional spiritual connection, profound inner peace, complete alignment with purpose, deeply fulfilling spiritual practices, strong sense of transcendence.',
-            reflectiveQuestions: [
-                'Do you feel a profound, unbreakable connection to your spirituality and purpose?',
-                'Are you consistently at peace, with a deep sense of fulfillment and clarity?',
-                'Does your spirituality define and elevate your daily life?'
-
-
-            ]
         }
 
       ];
