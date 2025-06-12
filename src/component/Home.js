@@ -26,7 +26,7 @@ const Home = () => {
                         <img src={img} alt="wheel" srcset="" />
                     </div>
                     <div className="sect2">
-                        <p className='sub-title'>The Wheel of Life is a quick and effective tool that gives you a visual snapshot of various areas of your life, helping you identify where you need the most improvement. 
+                        <p className='sub-title'>The Kaizen C-Suit Wheel is a quick and effective tool that gives you a visual snapshot of various areas of your life, helping you identify where you need the most improvement. 
                             It's free and takes just a minute to complete!</p>
                     <div className="min">
                         <button onClick={access}>Take The Accessment</button>
@@ -35,18 +35,18 @@ const Home = () => {
                 </div>
                 <hr/>
                 <div style={{marginBottom:"40px"}} className='sect3'>
-                <p>Do you wish to understand the concept of Wheel of Life before taking the test? </p>
+                <p>Do you wish to understand the concept of Kaizen C-Suit Wheel before taking the test? </p>
                 <p>There are 4 essential aspects that you should learn: </p>
                 <div className='aspects' style={{marginBottom:"40px"}}>
                     <ol>
-                        <li> <Link> How do I use the Wheel of Life? </Link></li>
-                        <li> <Link>The Concept of Wheel of Life</Link></li>
+                        <li> <Link> How do I use the Kaizen C-Suit Wheel? </Link></li>
+                        <li> <Link>The Concept of Kaizen C-Suit Wheel</Link></li>
                         <li><Link>How It Works</Link></li>
                         <li><Link>Purpose and Benefits </Link></li>
                         <li><Link>Aligning Your Wheel, Living Your Best Life </Link></li>
                     </ol>
                 </div>
-                                <h3>How do I use the Wheel of Life? </h3>
+                                <h3>How do I use the Kaizen C-Suit Wheel? </h3>
                             <div style={{marginBottom:"40px"}} className="steps">
                             <p>Step 1:  Click the "Take Assessment" button to start </p>
                             <p>Step 2:  Select an answer for the 10 questions presented to you </p>
@@ -55,8 +55,8 @@ const Home = () => {
                             </div>
                             
                             <div className='concept' style={{marginBottom:"40px"}}>
-                          <h3>  The Concept of Wheel of Life </h3> 
-              <p> The Wheel of Life is a simple yet profound metaphor illustrating how different areas of life need to be in alignment for you to move forward smoothly. </p>
+                          <h3>  The Concept of Kaizen C-Suit Wheel </h3> 
+              <p> The Kaizen C-Suit Wheel is a simple yet profound metaphor illustrating how different areas of life need to be in alignment for you to move forward smoothly. </p>
 
 <p> Much like how a wheel needs all its spokes to be even for it to roll without bumps, every aspect of life—career, health, relationships, finances, personal growth, and more—needs attention and nurturing to create a balanced, fulfilling existence. </p>
 
@@ -82,7 +82,7 @@ const Home = () => {
 
             <div className="align" style={{marginBottom:"40px"}} ref={scrollRef}>
            <h3> Aligning Your Wheel, Living Your Best Life </h3>
-<p>The concept of the Wheel of Life underscores that balance isn't static; it requires ongoing attention and adjustments. Life is dynamic, and priorities will shift over time. </p>
+<p>The concept of the Kaizen C-Suit Wheel underscores that balance isn't static; it requires ongoing attention and adjustments. Life is dynamic, and priorities will shift over time. </p>
 
 <p>By regularly auditing your wheel, you can prevent burnout, foster sustainable growth, and keep rolling toward fulfillment and success without constantly hitting roadblocks. </p>
 

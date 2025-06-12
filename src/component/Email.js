@@ -181,7 +181,7 @@ const decodedCategories = decodeCategoriesFromUrl(window.location.href);
         // Set data
         const data = []
 
-        sorted.map((category, index) => {
+        decodedCategories.map((category, index) => {
             data.push({ category: index+1, currentValue: category.values[0],  columnSettings: { fill: chart.get('colors').next() } })
         })
 
@@ -261,14 +261,14 @@ const decodedCategories = decodeCategoriesFromUrl(window.location.href);
                         </div>
 
                         <div className='range'>
-                        <p>How balanced is your life right now: </p>
+                        <p>How circular is your wheel (rough measure of balance across domains)?: </p>
                         <p>0% <input id="range" type="range" min="0" max="100" value={balance}/> 100%
                         <p style={styleIt}>{balance}%</p>
                         </p>
                         </div>
 
                         <div className='range'>
-                        <p>On the journey to your selected future self, you have covered: </p> 
+                        <p>On the journey to your desired future statem, you have covered: </p> 
                         <p> Past<input    id="range" type="range" min="0" max="100" value={gap_avg}/>{duration} 
                         <div style={{width:'50%', marginTop:'-10px'}}> <span style={ra}>Now </span>
                         <p style={{width:'100%', marginTop:'-30px', textAlign:'center'}}> {gap_avg.toFixed(2)}%</p>
@@ -293,7 +293,7 @@ const decodedCategories = decodeCategoriesFromUrl(window.location.href);
                             <th>Future</th>
                             <th>Difference</th>
                         </tr>
-                        {sorted.map((category, index) => (
+                        {decodedCategories.map((category, index) => (
                         <tr key={index}>
                             <td>Domain {index+1}</td>
                             <td style={{textAlign:"left"}}>{category.name}</td>

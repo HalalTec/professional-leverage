@@ -9,6 +9,8 @@ import Cultural from "./messages/Cultural";
 import Personal from "./messages/Personal";
 import Global from "./messages/Global";
 import Mentorship from "./messages/Mentorship";
+import './messages/Message.css'
+
 
 
 
