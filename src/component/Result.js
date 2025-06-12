@@ -25,16 +25,16 @@ const Result = ({
             const[msg, setMsg] = useState('')
 
             const categories = [
-                { name: 'Career and Professional Growth', values: [career[0], career[1], career[1] - career[0], ((career[0]/career[1])*100)] },
-                { name: 'Financial Health', values: [money[0], money[1], money[1] - money[0], ((money[0]/money[1])*100)] },
-                { name: 'Personal growth', values: [per[0], per[1], per[1] - per[0], ((per[0]/per[1])*100)] },
-                { name: 'Relationships and Social Life', values: [rel[0], rel[1], rel[1] - rel[0], ((rel[0]/rel[1])*100)] },
-                { name: 'Fun and Recreation', values: [fun[0], fun[1], fun[1] - fun[0], ((fun[0]/fun[1])*100)] },
-                { name: 'Living and Work Environment', values: [physical[0], physical[1], physical[1] - physical[0], ((physical[0]/physical[1])*100)] },
-                { name: 'Spirituality and Inner Growth', values: [spirit[0], spirit[1], spirit[1] - spirit[0], ((spirit[0]/spirit[1])*100)] },
-                { name: 'Physical and Emotional Health ', values: [health[0], health[1], health[1] - health[0], ((health[0]/health[1])*100)] },
-                { name: 'Purpose and Fulfillment ', values: [purpose[0], purpose[1], purpose[1] - purpose[0], ((purpose[0]/purpose[1])*100)] },
-                { name: 'Contribution and Legacy ', values: [contribution[0], contribution[1], contribution[1] - contribution[0], ((contribution[0]/contribution[1])*100)] },
+                { name: 'Leadership Development', values: [career[0], career[1], career[1] - career[0], ((career[0]/career[1])*100)] },
+                { name: 'Strategic Thinking', values: [money[0], money[1], money[1] - money[0], ((money[0]/money[1])*100)] },
+                { name: 'Executive Presence', values: [per[0], per[1], per[1] - per[0], ((per[0]/per[1])*100)] },
+                { name: 'Business Acumen', values: [rel[0], rel[1], rel[1] - rel[0], ((rel[0]/rel[1])*100)] },
+                { name: 'Innovation and Agility', values: [fun[0], fun[1], fun[1] - fun[0], ((fun[0]/fun[1])*100)] },
+                { name: 'Network & Industry Influence', values: [physical[0], physical[1], physical[1] - physical[0], ((physical[0]/physical[1])*100)] },
+                { name: 'Cultural Alignment and Integrity', values: [spirit[0], spirit[1], spirit[1] - spirit[0], ((spirit[0]/spirit[1])*100)] },
+                { name: 'Personal Growth and Continuous Learning', values: [health[0], health[1], health[1] - health[0], ((health[0]/health[1])*100)] },
+                { name: 'Global Perspective', values: [purpose[0], purpose[1], purpose[1] - purpose[0], ((purpose[0]/purpose[1])*100)] },
+                { name: 'Mentorship and Succession Planning', values: [contribution[0], contribution[1], contribution[1] - contribution[0], ((contribution[0]/contribution[1])*100)] },
             ];
 
         
