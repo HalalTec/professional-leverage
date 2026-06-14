@@ -72,10 +72,10 @@ const Network = ({close, msg, submit}) => {
                     ))}
                 </ul>
                 <div className="ref-button">
-                    <button onClick={prevSlide} className="prev" style={{marginTop:"0px"}}><img src={back} /></button>
+                    <button onClick={prevSlide} className="prev" style={{marginTop:"0px"}}><img src={back} alt="Previous" /></button>
                     <button id="myButton" onClick={submit}>{currentIndex + 1}</button>
                     <label htmlFor="myButton" className="select">Confirm {currentIndex + 1}</label>
-                    <button onClick={nextSlide} className="prev" style={{marginTop:"0px"}}><img src={next} /></button>
+                    <button onClick={nextSlide} className="prev" style={{marginTop:"0px"}}><img src={next} alt="Next" /></button>
                 </div>
             </div>
         </div>

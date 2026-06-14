@@ -31,11 +31,6 @@ const Email = () => {
 
     const navigate = useNavigate();  
 
-    const queryString = window.location.search;
-
-    const params = new URLSearchParams(queryString)
-
-
 
 // new setting
 
@@ -71,15 +66,6 @@ const decodeCategoriesFromUrl = (url) => {
 
 // Example usage with window.location.href
 const decodedCategories = decodeCategoriesFromUrl(window.location.href);
-
-
-
-  const sorted = [...decodedCategories].sort((a, b) => {
-    const valueA = parseInt(a.values[0], 10) || 0;
-    const valueB = parseInt(b.values[0], 10) || 0;
-    return valueB - valueA;
-  });
-
 
 //end new setting
 
@@ -153,6 +139,8 @@ const decodedCategories = decodeCategoriesFromUrl(window.location.href);
                 setInterpError('Could not load your interpretation. Please try again later.');
             })
             .finally(() => setLoadingInterp(false));
+    // decodedCategories is derived from the initial URL; this request should run once.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
       useEffect(() => {
@@ -224,7 +212,7 @@ const decodedCategories = decodeCategoriesFromUrl(window.location.href);
         // Set data
         const data = []
 
-        decodedCategories.map((category, index) => {
+        decodedCategories.forEach((category, index) => {
             data.push({ category: index+1, currentValue: category.values[0],  columnSettings: { fill: chart.get('colors').next() } })
         })
 
@@ -244,6 +232,8 @@ const decodedCategories = decodeCategoriesFromUrl(window.location.href);
             root.dispose();
         };
 
+    // decodedCategories is derived from the initial URL; the chart should initialize once.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const save = () => {

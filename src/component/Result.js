@@ -9,7 +9,6 @@ import * as am5xy from "@amcharts/amcharts5/xy";
 import * as am5radar from '@amcharts/amcharts5/radar';
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
 import emailjs from 'emailjs-com';
-import { numberToString } from '@amcharts/amcharts5/.internal/core/util/Type';
 
 const Result = ({
     career, money, per, rel, fun, physical, spirit, health
@@ -19,7 +18,7 @@ const Result = ({
 
             const params = new URLSearchParams();
             const [mail, setMail] = useState(false)
-            const [style, setStyle] = useState({display:'block'})
+            const style = {display:'block'}
             const [recipientEmail, setRecipientEmail] = useState('');
             const[msg, setMsg] = useState('')
 
@@ -136,7 +135,7 @@ const Result = ({
                 });
 
                 const data = []
-                sortedCategories.map((category, index) => {
+                sortedCategories.forEach((category, index) => {
                     data.push({ category: index+1, currentValue: category.values[0], columnSettings: { fill: chart.get('colors').next() } })
                 })
 
@@ -150,6 +149,8 @@ const Result = ({
                     root.dispose();
                 };
 
+            // sortedCategories is derived from the submitted scores; initialize the chart once.
+            // eslint-disable-next-line react-hooks/exhaustive-deps
             }, []);
 
             const save = () => {
@@ -211,6 +212,8 @@ const Result = ({
                 }, 1000);
 
                 return () => clearTimeout(timer);
+            // newUrl is derived from the submitted scores; this redirect should run once.
+            // eslint-disable-next-line react-hooks/exhaustive-deps
             }, [navigate]);
 
     return (

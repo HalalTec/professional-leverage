@@ -6,11 +6,6 @@ const Home = () => {
 
     const scrollRef = useRef(null);
 
-  const handleScroll = () => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
     const access = () => {
         window.location.href = '/wheel';
     }

@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import next from './next.png';
 import back from './back.png'
 
 const Carousel = ({ items, interval = 10000, tips }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const nextSlide = () => {
+  const nextSlide = useCallback(() => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % items.length);
-  };
+  }, [items.length]);
 
   const prevSlide = () => {
     setCurrentIndex((prevIndex) => (prevIndex - 1 + items.length) % items.length);
@@ -19,7 +19,7 @@ const Carousel = ({ items, interval = 10000, tips }) => {
     }, interval);
 
     return () => clearInterval(autoSlide); // Cleanup interval on unmount
-  }, [interval]);
+  }, [interval, nextSlide]);
 
   return (
     <>

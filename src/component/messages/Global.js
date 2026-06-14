@@ -230,9 +230,9 @@ const Global = ({close, msg, submit, quest}) => {
                     <li style={{listStyle:"disc"}}> {categories[currentIndex].reflectiveQuestions[2]}</li>
                     </ul>
                     <div className="ref-button">
-                    <button onClick={prevSlide} className=" prev" style={{marginTop:"0px"}}><img src={back}  /></button> <button  id="myButton" onClick={submit} >{currentIndex+1}</button>
+                    <button onClick={prevSlide} className=" prev" style={{marginTop:"0px"}}><img src={back} alt="Previous" /></button> <button  id="myButton" onClick={submit} >{currentIndex+1}</button>
                     
-                    <label htmlFor="myButton" className="select"> Confirm {currentIndex+1}</label> <button onClick={nextSlide} className=" prev" style={{marginTop:"0px"}}><img src={next} /></button>
+                    <label htmlFor="myButton" className="select"> Confirm {currentIndex+1}</label> <button onClick={nextSlide} className=" prev" style={{marginTop:"0px"}}><img src={next} alt="Next" /></button>
                     </div>
                     </div>
                 </div>
@@ -266,9 +266,9 @@ const Global = ({close, msg, submit, quest}) => {
                ))}
                </ul>                
                <div className="ref-button">
-               <button onClick={prevSlide} className=" prev" style={{marginTop:"0px"}}><img src={back}  /></button> <button  id="myButton" onClick={submit} >{currentIndex+1}</button>
+               <button onClick={prevSlide} className=" prev" style={{marginTop:"0px"}}><img src={back} alt="Previous" /></button> <button  id="myButton" onClick={submit} >{currentIndex+1}</button>
                
-               <label htmlFor="myButton" className="select"> Confirm {currentIndex+1}</label> <button onClick={nextSlide} className=" prev" style={{marginTop:"0px"}}><img src={next} /></button>
+               <label htmlFor="myButton" className="select"> Confirm {currentIndex+1}</label> <button onClick={nextSlide} className=" prev" style={{marginTop:"0px"}}><img src={next} alt="Next" /></button>
                </div>
                </div>
            </div>

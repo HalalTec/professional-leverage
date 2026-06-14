@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 
 const Embed = () => {
   useEffect(() => {
@@ -33,12 +33,6 @@ const Embed = () => {
       if (!results) return null;
       if (!results[2]) return '';
       return decodeURIComponent(results[2].replace(/\+/g, ' '));
-    };
-
-    const log = (message) => {
-      if (getParameterByName('s.io_debug')) {
-        console.log(message);
-      }
     };
 
     let uid;
