@@ -1,16 +1,9 @@
-const Career = ({question, style, select}) => {
-   const selected = select;
-
-    
-
-    return ( 
+const Career = ({question, clarifier}) => {
+    return (
         <>
-        
         <div className="question-answer">
-            <p style={style} className="pq">
-                {question} {select && (<i><u>{selected}</u></i>)}
-            </p>
-
+            <p className="pq">{question}</p>
+            {clarifier && <p className="clarifier"><i>{clarifier}</i></p>}
         </div>
         </>
      );

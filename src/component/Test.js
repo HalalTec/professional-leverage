@@ -3,14 +3,11 @@ import Career from "./Career";
 import Result from "./Result";
 import Carousel from "./Carousel";
 import Message from "./Message";
-import Warning from "./Warning";
 
-const Test = ({selected}) => {
-    const [warning, setWarning] = useState(false)
-    const [val, setVal] = useState()
+const Test = () => {
     const [counter, setCounter] = useState(1);
     const [style, setSty] = useState({backgroundColor: "#ED6A56"})
-    const [p, setP] = useState("Leadership Development")
+    const [p, setP] = useState("Identity Clarity")
     const [career, setCareer] = useState([])
     const [health, setHealth] = useState([])
     const [money, setMoney] = useState([])
@@ -19,355 +16,204 @@ const Test = ({selected}) => {
     const [fun, setFun] = useState([])
     const [physical, setPhysical] = useState([])
     const [spirit, setSpirit] = useState([])
-    const [cont, setCont] = useState([])
-    const [pur, setPur] = useState([])
-    const [item, setItem] = useState([ "Do you regularly make decisions that align with your organization’s vision and inspire your team?",
-                                        "Have you actively develop your emotional intelligence and conflict-resolution skills?",
-                                        "Are you able to align your team effectively during challenging situations?"
-])
-    const tip =["Tip 1", "Tip 2", "Tip 3"]
+    const [item, setItem] = useState([
+        "You mostly describe your job, not who you are.",
+        "You can explain your experience, but not your deeper pattern.",
+        "You know who you are, but some parts are still hard to explain.",
+        "You know your professional identity very well."
+    ])
+    const tip = ["Scores 1-3", "Scores 4-6", "Scores 7-8", "Scores 9-10"]
     const [message, setMessage] = useState(false)
     const [msg, setMsg] = useState(0)
-    const [check, setChecker] = useState(false)
-
-
 
     const confirm = (e) => {
         setMsg(e.target.textContent)
         setMessage(true)
-   }
-const confirmFuture = (e) => {
-        setMsg(e.target.textContent)
-        setChecker(true)
     }
-   
+
     const submit = (e) => {
         e.preventDefault();
-        let ans= e.target.textContent
+        let ans = e.target.textContent;
         setCounter(counter + 1);
-        setVal(ans)
 
-        if (counter <= 2) {
+        if (counter === 1) {
             setCareer([...career, ans]);
-            
-        }
-
-       
-        if (counter === 2 && counter < 4) {
             setSty({ backgroundColor: "#F09B36" });
-            setP("Strategic Thinking");
-       
+            setP("Value Articulation");
             setItem([
-                "Do you consistently analyze industry trends to inform long-term strategies?",
-                "Have you implemented a clear risk management or financial forecasting process in your strategic planning?",
-                "Have your strategic decisions directly contributed to organizational growth or success?"
-            ])
-            
-          
-        } 
-       if(counter > 2 && counter <= 4){ 
+                "It is hard to explain what you really bring.",
+                "You can explain your value, but it takes time.",
+                "Your value is mostly clear.",
+                "People quickly understand your value."
+            ]);
+        }
+        if (counter === 2) {
             setMoney([...money, ans]);
-
-        }
-        
-        
-         if (counter ===4 && counter < 6) {
             setSty({ backgroundColor: "#FFC74E" });
-            setP("Executive Presence");
+            setP("Evidence Visibility");
             setItem([
-                "Do you remain confident and composed in high-pressure situations?",
-                "Have you developed public speaking skills to represent your organization effectively on large platforms?",
-                "Do you regularly build and maintain professional relationships with other leaders?"
-            ])
-            
-        } 
-        
-        if(counter > 4 && counter <= 6){ 
+                "Your wins feel buried.",
+                "You have proof, but some of it is scattered.",
+                "Your proof is strong.",
+                "Your proof is easy to find."
+            ]);
+        }
+        if (counter === 3) {
             setHealth([...health, ans]);
-
-        }
-        
-        if (counter === 6 && counter < 8) {
             setSty({ backgroundColor: "#A0B470" });
-            setP("Business Acumen");
+            setP("Signature Strength Recognition");
             setItem([
-                "Do you have a comprehensive understanding of finance, marketing, and operations within your organization?",
-                "Are you well-informed about emerging technologies and digital transformation in your industry?",
-                "Do you make data-driven decisions to enhance business outcomes?"
-            ])
+                "You may not know your strongest repeat strengths.",
+                "You know some strengths, but not the full pattern.",
+                "Your strengths are mostly clear.",
+                "You know your strongest abilities well."
+            ]);
         }
-        
-        if(counter > 6 && counter <= 8){ 
+        if (counter === 4) {
             setRel([...rel, ans]);
-
-        }
-        
-        if (counter === 8 && counter < 10) {
             setSty({ backgroundColor: "#6E9E75" });
-            setP("Innovation and Agility");
+            setP("Trust Pattern Awareness");
             setItem([
-                "Do you encourage a culture of innovation and adaptability within your team?",
-                "Have you successfully led organizational changes in response to a fast-changing environment?",
-                "Do you actively promote creativity and idea-sharing among your teams?"
-            ])
-        } 
-        if(counter > 8 && counter <= 10){ 
-            setPer((e) => [...e, ans]);
+                "You may not notice your trust patterns.",
+                "You see some trust patterns, but not all.",
+                "You can see what people trust you with.",
+                "You clearly know what people trust you with."
+            ]);
         }
-        if (counter === 10 && counter < 12) {
+        if (counter === 5) {
+            setPer((prev) => [...prev, ans]);
             setSty({ backgroundColor: "#73CCE4" });
-            setP("Network & Industry Influence");
+            setP("Positioning Strength");
             setItem([
-                "Have you built a strong personal brand within your industry?",
-                "Do you have a network of high-profile contacts, including investors, board members, or influencers?",
-                "Have you taken opportunities to engage in thought leadership, such as keynote speaking or publishing?"
-            ])
-        } 
-        if(counter > 10 && counter <= 12){ 
-            setFun((p) => [...p, ans]);
+                "Your outside image may feel smaller than your real value.",
+                "Some of your value is visible, but not all of it.",
+                "Your positioning is strong, but not complete.",
+                "Your outside image matches your real value well."
+            ]);
         }
-        
-         if (counter === 12 && counter < 14) {
+        if (counter === 6) {
+            setFun((prev) => [...prev, ans]);
             setSty({ backgroundColor: "#869ACF" });
-            setP("Mentorship and Succession Planning");
+            setP("Next-Move Clarity");
             setItem([
-                "Do you regularly mentor and develop future leaders in your organization?",
-                "Have you established systems that allow your teams to operate efficiently in your absence?",
-                "Is there a clear succession plan in place for your role?"
-            ])
-
-        } 
-
-        if(counter > 12 && counter <= 14){ 
-            setPhysical((res) => [...res, ans]);
+                "Your next move feels foggy or stuck.",
+                "You have good options, but no clear best one.",
+                "Your direction is mostly clear.",
+                "Your next move feels clear and grounded."
+            ]);
         }
-
-        if (counter === 14 && counter < 16) {
+        if (counter === 7) {
+            setPhysical((prev) => [...prev, ans]);
             setSty({ backgroundColor: "#895881" });
-            setP("Cultural Alignment and Integrity");
+            setP("Leverage Utilization");
             setItem([
-                "Do you consistently align your leadership decisions with your company’s mission and values?",
-                "Have you taken active steps to promote diversity, equity, and inclusion in your leadership practices?",
-                "Do you uphold corporate governance and ethics in all decision-making?"
-            ])
-
-
-        } 
-
-        if(counter > 14 && counter <= 16){ 
-            setSpirit((re) => [...re, ans]);
+                "A lot of your energy may be going into low-return work.",
+                "Some of your strengths are working well, but not all.",
+                "Your leverage is strong, but not fully stretched.",
+                "Your strongest assets are being used in smart ways."
+            ]);
+        }
+        if (counter === 8) {
+            setSpirit((prev) => [...prev, ans]);
         }
 
-         if (counter === 16 && counter < 18) {
-            setSty({ backgroundColor: "#ff5733" });
-            setP("Personal Growth and Continuous Learning");
-            setItem([
-                "Are you committed to lifelong learning through executive education or personal development programs?",
-                "Do you regularly assess your strengths and areas for improvement?",
-                "Have you pursued personal development programs or certifications that enhanced your leadership abilities?"
-            ])
-        } 
-
-        if(counter > 16 && counter <= 18){ 
-            setPur((v) => [...v, ans]);
-        }
-
-         if (counter === 18 && counter < 20) {
-            setSty({ backgroundColor: "#58261b" });
-            setP("Global Perspective");
-            setItem([
-                "Do you stay informed about global market trends and geopolitical issues that impact your organization?",
-                "Have you led multinational teams effectively in your career?",
-                "Do you understand and apply cross-cultural leadership principles in your work?"
-            ])
-        }
-        
-        if(counter > 18 && counter <= 20){ 
-            setCont((pr) => [...pr, ans]);
-        }
-
-        if(counter === 20 ) {
-            if (career.length < 1 || health.length < 1 || money.length < 1 ||
-                per.lenght < 1 || rel.length < 1 || fun.length < 1 || physical.length < 1 ||
-                spirit.length < 1 || cont.length < 1 || pur.length < 1) {
-        
-                    alert("Please answer all the questions!");
-                    setCounter(1)
-                    setSty({backgroundColor: "#ED6A56"})
-                    setP("Career and Professional Growth")
-            }
-        }
-            close()
+        close();
     }
 
     const close = () => {
         setMessage(false)
-        setWarning(false)
-        setChecker(false)
     }
-    
 
-
- 
-       
-   
-    
-
-   
-
-    
-
-      
-   
-
-    return ( 
-       
-       <div>
-                     {counter <= 20 && (   <header style={style}> {p}  </header> )}
-                <div className="section">
+    return (
+        <div>
+            {counter <= 8 && (<header style={style}> {p} </header>)}
+            <div className="section">
                 {counter === 1 && (
-                <Career question="How well-developed are your leadership skills in inspiring, guiding, and empowering teams effectively?" />
-
-            )}
-           
-                {counter === 2 && (
-                <Career question="How well-developed do you want your leadership skills in inspiring, guiding, and empowering teams effectively in the next" select={selected}/>
-            )}
-
-        {counter === 3 && (
-                <Career question= "How confident are you in your ability to think strategically and align decisions with long-term organizational goals?" />
-            )}
-        {counter === 4 && (
-                <Career question="How confident do you want to be in your ability to think strategically and align decisions with long-term organizational goals in the next" select={selected}/>
-            )}
-        {counter === 5 && (
-                <Career question= "How strong is your executive presence, including your ability to command respect and project confidence?" />
-            )}
-        {counter === 6 && (
-                <Career question= "How strong do you want your executive presence, including your ability to command respect and project confidence in the next" select={selected}/>
-            )}
-        {counter === 7 && (
-                <Career question="How well do you understand and navigate complex business operations and financial landscapes?" />
-            )}
-        {counter === 8 && (
-                <Career question="How well do you want to understand and navigate complex business operations and financial landscapes in the next" select={selected}/>
-            )}
-        {counter === 9 && (
-                <Career question="How proficient are you in driving innovation and adapting to rapidly changing environments?" />
-            )}
-        {counter === 10 && (
-                <Career question="How proficient do you want to be in driving innovation and adapting to rapidly changing environments in the next" select={selected} />
-            )}
-         {counter === 11 && (
-                <Career question="How strong is your network and influence within your industry and professional circles?" />
-            )}
-        {counter === 12 && (
-                <Career question="How strong do you want your network and influence within your industry and professional circles in the next" select={selected} />
-            )}
-        {counter === 13 && (
-                <Career question="How effectively do you mentor others and contribute to succession planning within your organization?" />
-            )}
-        {counter === 14 && (
-                <Career question="How effectively do you want your mentor others and contribute to succession planning within your organization in the next" select={selected} />
-            )}
-        {counter === 15 && (
-                <Career question= "How aligned are you with your organization’s culture and how strong is your reputation for integrity?" />
-            )}
-        {counter === 16 && (
-                <Career question= "How aligned do you want to be with your organization’s culture and how strong is your reputation for integrity in the next" select={selected} />
-            )}
-        {counter === 17 && (
-                <Career question="How committed are you to personal development and continuous learning to stay ahead in your field?" />
-            )}
-         {counter === 18 && (
-                <Career question="How committed do you want to be to personal development and continuous learning to stay ahead in your field in the next" select={selected}/>
-            )}
-         {counter === 19 && (
-                <Career question= "How well-developed is your global perspective, including understanding diverse markets, cultures, and international trends?" />
-            )}
-         {counter === 20 && (
-                <Career question= "How well-developed do you want your global perspective, including understanding diverse markets, cultures, and international trends in the next" select={selected}/>
-            )}
-
-        {message === true && (< Message msg= {msg-1} close={close} p={p} submit={submit} quest={0} />)}
-        {check === true && (< Message msg= {msg-1} close={close} p={p} submit={submit} quest={1} />)}
-            {counter <= 20 && ( 
-                <>
-                    {counter % 2 === 1 && (<Carousel items={item} tips = {tip}/>)}
-                    <ol>
-                    {counter % 2 === 1 &&( <>    
-                <span onClick={confirm}> 1 </span>
-                <span onClick={confirm}>2</span>
-                <span onClick={confirm}>3</span>
-                <span onClick={confirm}>4</span>
-                <span onClick={confirm}>5</span>
-                <span onClick={confirm}>6</span>
-                <span onClick={confirm}>7</span>
-                <span onClick={confirm}> 8</span>
-                <span onClick={confirm}>9</span>
-                <span onClick={confirm}>10</span>
-                </>
-                 )}
-        {counter % 2 != 1 &&( <>     
-                    <span onClick={confirmFuture} style={{filter: 1 < val ? 'blur(2px)' : 'none',
-                                        cursor: 1 < val ? 'not-allowed' : 'pointer',
-                                        pointerEvents: 1 < val ? 'none' : 'auto'}}> 1 </span>
-                <span onClick={confirmFuture} style={{filter: 2 < val ? 'blur(2px)' : 'none',
-                                        cursor: 2 < val ? 'not-allowed' : 'pointer',
-                                        pointerEvents: 2 < val ? 'none' : 'auto'}}>2</span>
-                <span onClick={confirmFuture} style={{filter: 3 < val ? 'blur(2px)' : 'none',
-                                        cursor: 3 < val ? 'not-allowed' : 'pointer',
-                                        pointerEvents: 3 < val ? 'none' : 'auto'}}>3</span>
-                <span onClick={confirmFuture} style={{filter: 4 < val ? 'blur(2px)' : 'none',
-                                        cursor: 4 < val ? 'not-allowed' : 'pointer',
-                                        pointerEvents: 4 < val ? 'none' : 'auto'}}>4</span>
-                <span onClick={confirmFuture} style={{filter: 5 < val ? 'blur(2px)' : 'none',
-                                        cursor: 5 < val ? 'not-allowed' : 'pointer',
-                                        pointerEvents: 5 < val ? 'none' : 'auto'}}>5</span>
-                <span onClick={confirmFuture} style={{filter: 6 < val ? 'blur(2px)' : 'none',
-                                        cursor: 6 < val ? 'not-allowed' : 'pointer',
-                                        pointerEvents: 6 < val ? 'none' : 'auto'}}>6</span>
-                <span onClick={confirmFuture} style={{filter: 7 < val ? 'blur(2px)' : 'none',
-                                        cursor: 7 < val ? 'not-allowed' : 'pointer',
-                                        pointerEvents: 7 < val ? 'none' : 'auto'}}>7</span>
-                <span onClick={confirmFuture} style={{filter: 8 < val ? 'blur(2px)' : 'none',
-                                        cursor: 8 < val ? 'not-allowed' : 'pointer',
-                                        pointerEvents: 8 < val ? 'none' : 'auto'}}> 8</span>
-                <span onClick={confirmFuture} style={{filter: 9 < val ? 'blur(2px)' : 'none',
-                                        cursor: 9 < val ? 'not-allowed' : 'pointer',
-                                        pointerEvents: 9 < val ? 'none' : 'auto'}}>9</span>
-                <span onClick={confirmFuture} style={{filter: 10 < val ? 'blur(2px)' : 'none',
-                                        cursor: 10 < val ? 'not-allowed' : 'pointer',
-                                        pointerEvents: 10 < val ? 'none' : 'auto'}}>10</span>
-                </>
-                 )}
-                </ol>
-                </>
-                   )}
-                </div>
-                {counter <= 16 && ( 
-                    <footer style={style} className="foot"> </footer>
+                    <Career
+                        question="Can you clearly define who you are professionally beyond your title?"
+                        clarifier="Most professionals can explain what they've done. Far fewer can explain the deeper pattern underneath it."
+                    />
                 )}
-                    {counter > 20 && (
-                <Result career={career}  
-                        money={money}
-                        per= {per}
-                        rel= {rel}
-                        fun = {fun}
-                    physical = {physical} 
-                    spirit = {spirit}
-                    health = {health}
-                    contribution = {cont}
-                    purpose = {pur}
-                    selected = {selected}
-                
+                {counter === 2 && (
+                    <Career
+                        question="Can you clearly explain the value you create?"
+                        clarifier="If your value takes too long to understand, it often gets underestimated."
+                    />
+                )}
+                {counter === 3 && (
+                    <Career
+                        question="Have you properly extracted the proof of your value from your career?"
+                        clarifier="Wins, trust, and outcomes are not just memories. They are evidence."
+                    />
+                )}
+                {counter === 4 && (
+                    <Career
+                        question="Do you know the strengths that drive your best results?"
+                        clarifier="The abilities that create your best results often feel normal to you."
+                    />
+                )}
+                {counter === 5 && (
+                    <Career
+                        question="Do you understand what people repeatedly trust you with?"
+                        clarifier="Repeated trust is rarely random."
+                    />
+                )}
+                {counter === 6 && (
+                    <Career
+                        question="Does the way you present yourself reflect the full depth of what you've built?"
+                        clarifier="Many strong professionals carry far more value than their current positioning shows."
+                    />
+                )}
+                {counter === 7 && (
+                    <Career
+                        question="Do you know what your strongest next move should be?"
+                        clarifier="More experience often creates more options. Not always more clarity."
+                    />
+                )}
+                {counter === 8 && (
+                    <Career
+                        question="Are your strongest assets being used where they create the highest return?"
+                        clarifier="Being busy is not the same as being leveraged."
+                    />
+                )}
 
+                {message === true && (<Message msg={msg - 1} close={close} p={p} submit={submit} quest={0} />)}
+
+                {counter <= 8 && (
+                    <>
+                        <Carousel items={item} tips={tip} />
+                        <ol>
+                            <span onClick={confirm}> 1 </span>
+                            <span onClick={confirm}>2</span>
+                            <span onClick={confirm}>3</span>
+                            <span onClick={confirm}>4</span>
+                            <span onClick={confirm}>5</span>
+                            <span onClick={confirm}>6</span>
+                            <span onClick={confirm}>7</span>
+                            <span onClick={confirm}> 8</span>
+                            <span onClick={confirm}>9</span>
+                            <span onClick={confirm}>10</span>
+                        </ol>
+                    </>
+                )}
+            </div>
+            {counter <= 8 && (
+                <footer style={style} className="foot"> </footer>
+            )}
+            {counter > 8 && (
+                <Result
+                    career={career}
+                    money={money}
+                    per={per}
+                    rel={rel}
+                    fun={fun}
+                    physical={physical}
+                    spirit={spirit}
+                    health={health}
                 />
             )}
-             
-                </div>
-            )
-            
+        </div>
+    )
 }
- 
+
 export default Test;

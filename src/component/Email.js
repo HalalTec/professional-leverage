@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';  
-import pako from 'pako'; 
+import { useNavigate } from 'react-router-dom';
+import pako from 'pako';
 import { Buffer } from 'buffer';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
@@ -10,25 +10,30 @@ import * as am5radar from '@amcharts/amcharts5/radar';
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
 import Embed from './Embed';
 
+const CATEGORY_KEY_MAP = {
+    'Identity Clarity': 'identity_clarity',
+    'Value Articulation': 'value_articulation',
+    'Evidence Visibility': 'evidence_visibility',
+    'Signature Strength Recognition': 'signature_strength_recognition',
+    'Trust Pattern Awareness': 'trust_pattern_awareness',
+    'Positioning Strength': 'positioning_strength',
+    'Next-Move Clarity': 'next_move_clarity',
+    'Leverage Utilization': 'leverage_utilization',
+};
+
 const Email = () => {
 
     const [eBook, seteBook] = useState(false)
     const [hide, setHide] = useState(false)
+    const [interpretation, setInterpretation] = useState(null)
+    const [loadingInterp, setLoadingInterp] = useState(false)
+    const [interpError, setInterpError] = useState(null)
 
     const navigate = useNavigate();  
 
     const queryString = window.location.search;
 
     const params = new URLSearchParams(queryString)
-
-    let  duration = ''; 
-    if(params.get('i') == 'y'){
-        duration = '1 year'
-    }else if (params.get('i') =='yr') {
-        duration = '3 years'
-    }else {
-        duration = '6 months'
-    }
 
 
 
@@ -70,9 +75,9 @@ const decodedCategories = decodeCategoriesFromUrl(window.location.href);
 
 
   const sorted = [...decodedCategories].sort((a, b) => {
-    const valueA = parseInt(a.values[2], 10) || 0; 
-    const valueB = parseInt(b.values[2], 10) || 0; 
-    return valueB - valueA; 
+    const valueA = parseInt(a.values[0], 10) || 0;
+    const valueB = parseInt(b.values[0], 10) || 0;
+    return valueB - valueA;
   });
 
 
@@ -106,12 +111,50 @@ const decodedCategories = decodeCategoriesFromUrl(window.location.href);
     const SD = roundUpToDecimal(Standard, 2)
     const balance = roundUpToDecimal(((1-(SD / mean)) * 100), 1);                
 
-    const startingVal = decodedCategories.map(category => parseInt(category.values[3]));
-    const gap = calculateMean(startingVal)
-    const gap_avg = gap
-
 // calculation ends here
-      
+
+    useEffect(() => {
+        const scores = {};
+        decodedCategories.forEach(category => {
+            const key = CATEGORY_KEY_MAP[category.name];
+            if (key) {
+                scores[key] = parseInt(category.values[0], 10);
+            }
+        });
+
+        setLoadingInterp(true);
+        fetch('/api/interpret', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ scores }),
+        })
+            .then(async res => {
+                const contentType = res.headers.get('content-type') || '';
+                const data = contentType.includes('application/json')
+                    ? await res.json()
+                    : null;
+
+                if (!res.ok) {
+                    throw new Error(data?.error || `Interpretation API returned ${res.status}`);
+                }
+
+                if (!data) {
+                    throw new Error('Interpretation API did not return JSON');
+                }
+
+                return data;
+            })
+            .then(data => {
+                if (data.error) throw new Error(data.error);
+                setInterpretation(data);
+            })
+            .catch(err => {
+                console.error('Interpretation error:', err);
+                setInterpError('Could not load your interpretation. Please try again later.');
+            })
+            .finally(() => setLoadingInterp(false));
+    }, []);
+
       useEffect(() => {
         // Create root element
         const root = am5.Root.new('chartdiv');
@@ -231,10 +274,6 @@ const decodedCategories = decodeCategoriesFromUrl(window.location.href);
     }
 
     const styleIt = {textAlign:"center", width:"50%"}
-    const ra = {
-        marginLeft: `${gap_avg}%`,
-        border:'none',
-      }
     
 
       const display = () => {
@@ -267,15 +306,6 @@ const decodedCategories = decodeCategoriesFromUrl(window.location.href);
                         </p>
                         </div>
 
-                        <div className='range'>
-                        <p>On the journey to your desired future statem, you have covered: </p> 
-                        <p> Past<input    id="range" type="range" min="0" max="100" value={gap_avg}/>{duration} 
-                        <div style={{width:'50%', marginTop:'-10px'}}> <span style={ra}>Now </span>
-                        <p style={{width:'100%', marginTop:'-30px', textAlign:'center'}}> {gap_avg.toFixed(2)}%</p>
-                        </div>
-                        </p>
-                        </div>
-                        
             </div>
             <div className="result" id="result">
                 <div className="pie">
@@ -289,17 +319,13 @@ const decodedCategories = decodeCategoriesFromUrl(window.location.href);
                     <tr>
                             <th>No.</th>
                             <th>Life Domain</th>
-                            <th>Now</th>
-                            <th>Future</th>
-                            <th>Difference</th>
+                            <th>Score</th>
                         </tr>
                         {decodedCategories.map((category, index) => (
                         <tr key={index}>
                             <td>Domain {index+1}</td>
                             <td style={{textAlign:"left"}}>{category.name}</td>
                             <td>{category.values[0]}</td>
-                            <td>{category.values[1]}</td>
-                            <td>{category.values[2]}</td>
                         </tr>
                     ))}
 
@@ -308,7 +334,72 @@ const decodedCategories = decodeCategoriesFromUrl(window.location.href);
 
                 </div>
             </div>
-            <div>   
+            {/* AI Interpretation Section */}
+            <div className="interpretation" style={{padding:'20px 10% 20px 10%'}}>
+                {loadingInterp && (
+                    <p style={{textAlign:'center', fontStyle:'italic', color:'#555'}}>Generating your professional leverage interpretation...</p>
+                )}
+                {interpError && (
+                    <p style={{textAlign:'center', color:'red'}}>{interpError}</p>
+                )}
+                {interpretation && (
+                    <div className="interp-content">
+                        <h2 style={{textAlign:'center', borderBottom:'2px solid #29ABE2', paddingBottom:'10px'}}>
+                            Your Professional Leverage Pattern
+                        </h2>
+
+                        <div className="interp-section" style={{marginBottom:'24px'}}>
+                            <h3 style={{color:'#29ABE2'}}>{interpretation.your_pattern.title}</h3>
+                            <p style={{fontSize:'large', fontWeight:'bold'}}>{interpretation.your_pattern.value}</p>
+                        </div>
+
+                        <div className="interp-section" style={{marginBottom:'24px'}}>
+                            <h3 style={{color:'#29ABE2'}}>{interpretation.what_this_pattern_suggests.title}</h3>
+                            {interpretation.what_this_pattern_suggests.short.map((s, i) => (
+                                <p key={i} style={{marginBottom:'6px'}}>{s}</p>
+                            ))}
+                            <ul style={{textAlign:'left', marginTop:'10px'}}>
+                                {interpretation.what_this_pattern_suggests.expanded.map((s, i) => (
+                                    <li key={i} style={{marginBottom:'6px', listStyle:'disc', fontSize:'medium'}}>{s}</li>
+                                ))}
+                            </ul>
+                        </div>
+
+                        <div className="interp-section" style={{marginBottom:'24px'}}>
+                            <h3 style={{color:'#29ABE2'}}>{interpretation.what_may_be_quietly_costing_you.title}</h3>
+                            <ul style={{textAlign:'left'}}>
+                                {interpretation.what_may_be_quietly_costing_you.points.map((p, i) => (
+                                    <li key={i} style={{marginBottom:'6px', listStyle:'disc', fontSize:'medium'}}>{p}</li>
+                                ))}
+                            </ul>
+                        </div>
+
+                        <div className="interp-section" style={{marginBottom:'24px'}}>
+                            <h3 style={{color:'#29ABE2'}}>{interpretation.where_hidden_value_may_be_sitting.title}</h3>
+                            <ul style={{textAlign:'left'}}>
+                                {interpretation.where_hidden_value_may_be_sitting.points.map((p, i) => (
+                                    <li key={i} style={{marginBottom:'6px', listStyle:'disc', fontSize:'medium'}}>{p}</li>
+                                ))}
+                            </ul>
+                        </div>
+
+                        <div className="interp-section" style={{marginBottom:'24px'}}>
+                            <h3 style={{color:'#29ABE2'}}>{interpretation.what_this_may_open_up.title}</h3>
+                            <ul style={{textAlign:'left'}}>
+                                {interpretation.what_this_may_open_up.points.map((p, i) => (
+                                    <li key={i} style={{marginBottom:'6px', listStyle:'disc', fontSize:'medium'}}>{p}</li>
+                                ))}
+                            </ul>
+                        </div>
+
+                        <div className="interp-section" style={{background:'#f5f5f5', padding:'16px', borderLeft:'4px solid #29ABE2', marginBottom:'24px'}}>
+                            <h3 style={{color:'#29ABE2'}}>{interpretation.audit_bridge.title}</h3>
+                            {interpretation.audit_bridge.body.map((b, i) => (
+                                <p key={i} style={{fontSize:'medium', marginBottom:'8px'}}>{b}</p>
+                            ))}
+                        </div>
+                    </div>
+                )}
             </div>
 
                     <div className="observe">
@@ -339,7 +430,7 @@ const decodedCategories = decodeCategoriesFromUrl(window.location.href);
             </div>
             </div>
             <div>
-            <footer>	Made with ❤ by <a href="https://www.discoveryourvalues.com/">Discover Your Values</a></footer>
+                <footer>	Made with ❤️ from Ibrahim Kaizen Coaching <a href="https://www.nextlevel10X.pro">Unleash your next level</a></footer>
             </div>
 
             
