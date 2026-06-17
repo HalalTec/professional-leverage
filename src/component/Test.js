@@ -1,4 +1,5 @@
-import {  useState } from "react";
+import { useState } from "react";
+import { Shield, Clock3, Info } from "lucide-react";
 import Career from "./Career";
 import Result from "./Result";
 import Carousel from "./Carousel";
@@ -6,7 +7,6 @@ import Message from "./Message";
 
 const Test = () => {
     const [counter, setCounter] = useState(1);
-    const [style, setSty] = useState({backgroundColor: "#ED6A56"})
     const [p, setP] = useState("Identity Clarity")
     const [career, setCareer] = useState([])
     const [health, setHealth] = useState([])
@@ -38,7 +38,6 @@ const Test = () => {
 
         if (counter === 1) {
             setCareer([...career, ans]);
-            setSty({ backgroundColor: "#F09B36" });
             setP("Value Articulation");
             setItem([
                 "It is hard to explain what you really bring.",
@@ -49,7 +48,6 @@ const Test = () => {
         }
         if (counter === 2) {
             setMoney([...money, ans]);
-            setSty({ backgroundColor: "#FFC74E" });
             setP("Evidence Visibility");
             setItem([
                 "Your wins feel buried.",
@@ -60,7 +58,6 @@ const Test = () => {
         }
         if (counter === 3) {
             setHealth([...health, ans]);
-            setSty({ backgroundColor: "#A0B470" });
             setP("Signature Strength Recognition");
             setItem([
                 "You may not know your strongest repeat strengths.",
@@ -71,7 +68,6 @@ const Test = () => {
         }
         if (counter === 4) {
             setRel([...rel, ans]);
-            setSty({ backgroundColor: "#6E9E75" });
             setP("Trust Pattern Awareness");
             setItem([
                 "You may not notice your trust patterns.",
@@ -82,7 +78,6 @@ const Test = () => {
         }
         if (counter === 5) {
             setPer((prev) => [...prev, ans]);
-            setSty({ backgroundColor: "#73CCE4" });
             setP("Positioning Strength");
             setItem([
                 "Your outside image may feel smaller than your real value.",
@@ -93,7 +88,6 @@ const Test = () => {
         }
         if (counter === 6) {
             setFun((prev) => [...prev, ans]);
-            setSty({ backgroundColor: "#869ACF" });
             setP("Next-Move Clarity");
             setItem([
                 "Your next move feels foggy or stuck.",
@@ -104,7 +98,6 @@ const Test = () => {
         }
         if (counter === 7) {
             setPhysical((prev) => [...prev, ans]);
-            setSty({ backgroundColor: "#895881" });
             setP("Leverage Utilization");
             setItem([
                 "A lot of your energy may be going into low-return work.",
@@ -125,81 +118,119 @@ const Test = () => {
     }
 
     return (
-        <div>
-            {counter <= 8 && (<header style={style}> {p} </header>)}
-            <div className="section">
-                {counter === 1 && (
-                    <Career
-                        question="Can you clearly define who you are professionally beyond your title?"
-                        clarifier="Most professionals can explain what they've done. Far fewer can explain the deeper pattern underneath it."
-                    />
-                )}
-                {counter === 2 && (
-                    <Career
-                        question="Can you clearly explain the value you create?"
-                        clarifier="If your value takes too long to understand, it often gets underestimated."
-                    />
-                )}
-                {counter === 3 && (
-                    <Career
-                        question="Have you properly extracted the proof of your value from your career?"
-                        clarifier="Wins, trust, and outcomes are not just memories. They are evidence."
-                    />
-                )}
-                {counter === 4 && (
-                    <Career
-                        question="Do you know the strengths that drive your best results?"
-                        clarifier="The abilities that create your best results often feel normal to you."
-                    />
-                )}
-                {counter === 5 && (
-                    <Career
-                        question="Do you understand what people repeatedly trust you with?"
-                        clarifier="Repeated trust is rarely random."
-                    />
-                )}
-                {counter === 6 && (
-                    <Career
-                        question="Does the way you present yourself reflect the full depth of what you've built?"
-                        clarifier="Many strong professionals carry far more value than their current positioning shows."
-                    />
-                )}
-                {counter === 7 && (
-                    <Career
-                        question="Do you know what your strongest next move should be?"
-                        clarifier="More experience often creates more options. Not always more clarity."
-                    />
-                )}
-                {counter === 8 && (
-                    <Career
-                        question="Are your strongest assets being used where they create the highest return?"
-                        clarifier="Being busy is not the same as being leveraged."
-                    />
-                )}
+        <div className="diagnostic-page min-h-screen bg-[#0A0A0A] text-white">
 
-                {message === true && (<Message msg={msg - 1} close={close} p={p} submit={submit} quest={0} />)}
+            {/* Header */}
+            <header className="bg-black border-b border-[#1f2937]">
+                <div className="max-w-7xl w-full px-6 py-6 flex items-center justify-between">
+                    <div className="flex items-stretch gap-4">
+                        <div className="border border-[#D4A24A] flex items-center justify-center text-[#D4A24A] font-serif text-xl px-4">
+                            PL
+                        </div>
+                        <div className="flex flex-col justify-center">
+                            <h1 className="text-[#D4A24A] tracking-wider font-bold text-xl leading-none">
+                                PROFLEVERAGE
+                            </h1>
+                            <p className="text-[6px] text-gray-400 tracking-[0.15em] mt-1">
+                                CLARITY. LEVERAGE. NEXT LEVEL.
+                            </p>
+                        </div>
+                        </div>
+                    <div className="flex items-center gap-2 text-gray-400 text-sm">
+                        <Shield size={16} />
+                        <span>Your responses are confidential</span>
+                    </div>
+                </div>
+            </header>
 
-                {counter <= 8 && (
-                    <>
-                        <Carousel items={item} tips={tip} />
-                        <ol>
-                            <span onClick={confirm}> 1 </span>
-                            <span onClick={confirm}>2</span>
-                            <span onClick={confirm}>3</span>
-                            <span onClick={confirm}>4</span>
-                            <span onClick={confirm}>5</span>
-                            <span onClick={confirm}>6</span>
-                            <span onClick={confirm}>7</span>
-                            <span onClick={confirm}> 8</span>
-                            <span onClick={confirm}>9</span>
-                            <span onClick={confirm}>10</span>
-                        </ol>
-                    </>
-                )}
-            </div>
             {counter <= 8 && (
-                <footer style={style} className="foot"> </footer>
+                <main className="px-6 py-10">
+                    <div className="max-w-6xl mx-auto border border-[#1f2937] rounded-2xl bg-[#050C17] px-8 md:px-20 py-16">
+
+                        {/* Progress */}
+                        <div className="max-w-3xl mx-auto">
+                            <div className="text-center text-[#D4A24A] text-xl mb-4">
+                                Question {counter} of 8
+                            </div>
+                            <div className="h-2 bg-[#1f2937] rounded-full overflow-hidden">
+                                <div
+                                    className="h-full bg-[#D4A24A] transition-all duration-500"
+                                    style={{ width: `${((counter - 1) / 8) * 100}%` }}
+                                />
+                            </div>
+                            <div className="flex justify-center items-center gap-2 text-gray-400 mt-6">
+                                <Clock3 size={18} />
+                                <span>Takes ~5 minutes</span>
+                            </div>
+                        </div>
+
+                        {/* Category */}
+                        <div className="text-center mt-16">
+                            <span className="uppercase tracking-[0.25em] text-[#D4A24A] text-sm font-semibold">
+                                {p}
+                            </span>
+                        </div>
+
+                        {/* Question */}
+                        <div className="max-w-4xl mx-auto text-center mt-6">
+                            {counter === 1 && <Career question="Can you clearly define who you are professionally beyond your title?" clarifier="Most professionals can explain what they've done. Far fewer can explain the deeper pattern underneath it." />}
+                            {counter === 2 && <Career question="Can you clearly explain the value you create?" clarifier="If your value takes too long to understand, it often gets underestimated." />}
+                            {counter === 3 && <Career question="Have you properly extracted the proof of your value from your career?" clarifier="Wins, trust, and outcomes are not just memories. They are evidence." />}
+                            {counter === 4 && <Career question="Do you know the strengths that drive your best results?" clarifier="The abilities that create your best results often feel normal to you." />}
+                            {counter === 5 && <Career question="Do you understand what people repeatedly trust you with?" clarifier="Repeated trust is rarely random." />}
+                            {counter === 6 && <Career question="Does the way you present yourself reflect the full depth of what you've built?" clarifier="Many strong professionals carry far more value than their current positioning shows." />}
+                            {counter === 7 && <Career question="Do you know what your strongest next move should be?" clarifier="More experience often creates more options. Not always more clarity." />}
+                            {counter === 8 && <Career question="Are your strongest assets being used where they create the highest return?" clarifier="Being busy is not the same as being leveraged." />}
+                        </div>
+
+                        {/* Note */}
+                        <div className="flex justify-center mt-10">
+                            <div className="flex items-center gap-2 text-gray-500">
+                                <Info size={16} />
+                                <span>There are no right answers. Go with what feels most true right now.</span>
+                            </div>
+                        </div>
+
+                        {/* Carousel */}
+                        <Carousel items={item} tips={tip} />
+
+                        {/* Score grid */}
+                        <div className="max-w-5xl mx-auto mt-14">
+                            <div className="grid grid-cols-5 md:grid-cols-10 gap-3">
+                                {[1,2,3,4,5,6,7,8,9,10].map(n => (
+                                    <button
+                                        key={n}
+                                        onClick={confirm}
+                                        className="h-20 rounded-lg border border-[#6B4E1D] text-[#D4A24A] hover:border-[#D4A24A] transition-all duration-200 text-3xl font-semibold"
+                                    >
+                                        {n}
+                                    </button>
+                                ))}
+                            </div>
+                            <div className="flex justify-between mt-5 text-gray-400 text-xl">
+                                <span>Strong No</span>
+                                <span>Strong Yes</span>
+                            </div>
+                        </div>
+
+                        {/* Footer */}
+                        <div className="flex justify-center mt-20">
+                            <div className="flex items-center gap-2 text-gray-500">
+                                <Shield size={16} className="text-[#D4A24A]" />
+                                <span>Your results are for your eyes only.</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </main>
             )}
+
+            {/* Confirmation modal */}
+            {message === true && (
+                <Message msg={msg - 1} close={close} p={p} submit={submit} quest={0} />
+            )}
+
+            {/* Results */}
             {counter > 8 && (
                 <Result
                     career={career}

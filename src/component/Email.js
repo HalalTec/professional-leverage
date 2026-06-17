@@ -11,101 +11,103 @@ import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
 import Embed from './Embed';
 
 const CATEGORY_KEY_MAP = {
-    'Identity Clarity': 'identity_clarity',
-    'Value Articulation': 'value_articulation',
-    'Evidence Visibility': 'evidence_visibility',
+    'Identity Clarity':               'identity_clarity',
+    'Value Articulation':             'value_articulation',
+    'Evidence Visibility':            'evidence_visibility',
     'Signature Strength Recognition': 'signature_strength_recognition',
-    'Trust Pattern Awareness': 'trust_pattern_awareness',
-    'Positioning Strength': 'positioning_strength',
-    'Next-Move Clarity': 'next_move_clarity',
-    'Leverage Utilization': 'leverage_utilization',
+    'Trust Pattern Awareness':        'trust_pattern_awareness',
+    'Positioning Strength':           'positioning_strength',
+    'Next-Move Clarity':              'next_move_clarity',
+    'Leverage Utilization':           'leverage_utilization',
 };
 
-const Email = () => {
+const REFLECTION_QUESTIONS = [
+    "How do you feel as you look at your results?",
+    "Are there any surprises for you?",
+    "How do you currently spend time in these areas?",
+    "How would you like to spend time in these areas?",
+    "What might you be avoiding looking at here?",
+    "For each one, what would make that score a 10/10?",
+    "What would definitely increase your score — even if it was really hard to do?",
+    "Describe what a score of 10 would look like in those areas.",
+    "Which of these categories would you most like to improve?",
+    "How could you make space for these changes in your life?",
+    "What help and support might you need from others?",
+    "What is the smallest step you could take to get started?",
+    "What will you do today or in the next 24 hours?",
+    "If there was one key action that would begin to bring everything into balance, what would it be?",
+    "What if time, money and energy were not an issue? What could you do in each area?",
+];
 
+const ScoreBar = ({ label, value, percent }) => (
+    <div className="mb-6">
+        <div className="flex justify-between items-center mb-2">
+            <span className="text-gray-300 text-sm">{label}</span>
+            <span className="text-[#D9A44A] font-semibold">{percent.toFixed(1)}%</span>
+        </div>
+        <div className="w-full bg-[#111827] rounded-full h-2">
+            <div
+                className="bg-[#D9A44A] h-2 rounded-full transition-all"
+                style={{ width: `${Math.min(percent, 100)}%` }}
+            />
+        </div>
+    </div>
+);
+
+const Email = () => {
     const [eBook, seteBook] = useState(false)
     const [hide, setHide] = useState(false)
     const [interpretation, setInterpretation] = useState(null)
     const [loadingInterp, setLoadingInterp] = useState(false)
     const [interpError, setInterpError] = useState(null)
 
-    const navigate = useNavigate();  
+    const navigate = useNavigate();
 
-
-// new setting
-
-
-const decodeCategoriesFromUrl = (url) => {
-    try {
-        // Step 1: Parse the URL and extract query parameters
-        const urlParams = new URL(url).searchParams;
-
-        // Step 2: Get the Base64-encoded payload
-        const base64EncodedPayload = urlParams.get('payload');
-
-        if (!base64EncodedPayload) {
-            throw new Error('Payload not found in the URL.');
+    const decodeCategoriesFromUrl = (url) => {
+        try {
+            const urlParams = new URL(url).searchParams;
+            const base64EncodedPayload = urlParams.get('payload');
+            if (!base64EncodedPayload) throw new Error('Payload not found.');
+            const compressedData = Buffer.from(base64EncodedPayload, 'base64');
+            const decompressed = pako.inflate(compressedData, { to: 'string' });
+            return JSON.parse(decompressed);
+        } catch (error) {
+            console.error('Error decoding the URL payload:', error);
+            navigate('/');
         }
+    };
 
-        // Step 3: Decode the Base64 string back to binary data
-        const compressedData = Buffer.from(base64EncodedPayload, 'base64');
+    const decodedCategories = decodeCategoriesFromUrl(window.location.href);
 
-        // Step 4: Decompress the binary data using pako
-        const decompressed = pako.inflate(compressedData, { to: 'string' });
-
-        // Step 5: Parse the decompressed JSON string back into the original object
-        const categories = JSON.parse(decompressed);
-
-        return categories;
-    } catch (error) {
-        console.error('Error decoding the URL payload:', error);
-        navigate('/'); 
-
+    function calculateMean(values) {
+        return values.reduce((acc, v) => acc + v, 0) / values.length;
     }
-};
 
-// Example usage with window.location.href
-const decodedCategories = decodeCategoriesFromUrl(window.location.href);
+    function calculateStandardDeviation(values) {
+        const mean = calculateMean(values);
+        const variance = values.reduce((acc, v) => acc + Math.pow(v - mean, 2), 0) / values.length;
+        return Math.sqrt(variance);
+    }
 
-//end new setting
+    function roundUpToDecimal(number, decimalPlaces) {
+        const factor = Math.pow(10, decimalPlaces);
+        return Math.ceil(number * factor) / factor;
+    }
 
- //Magnitude and balance Calculation
- function calculateMean(values) {
-    const sum = values.reduce((acc, value) => acc + value, 0);
-    return sum / values.length;
-  }
-  
-  
-  // Function to calculate the standard deviation of an array of numbers
-  function calculateStandardDeviation(values) {
-    const mean = calculateMean(values);
-    const variance = values.reduce((acc, value) => acc + Math.pow(value - mean, 2), 0) / values.length;
-    return Math.sqrt(variance);
-  }
-
-  function roundUpToDecimal(number, decimalPlaces) {
-    const factor = Math.pow(10, decimalPlaces);
-    return Math.ceil(number * factor) / factor;
-  }
-
-    const startingValues = decodedCategories.map(category => parseInt(category.values[0]));
+    const startingValues = decodedCategories.map(c => parseInt(c.values[0]));
     const meanAvg = calculateMean(startingValues);
     const Standard = calculateStandardDeviation(startingValues);
-    
-    const mean = roundUpToDecimal(meanAvg, 2)
-    const mean_percent = ((mean/10) * 100) 
-    const SD = roundUpToDecimal(Standard, 2)
-    const balance = roundUpToDecimal(((1-(SD / mean)) * 100), 1);                
-
-// calculation ends here
+    const mean = roundUpToDecimal(meanAvg, 2);
+    const mean_percent = (mean / 10) * 100;
+    const SD = roundUpToDecimal(Standard, 2);
+    const balance = roundUpToDecimal(((1 - (SD / mean)) * 100), 1);
+    const overallScore = ((mean_percent + balance) / 2).toFixed(1);
 
     useEffect(() => {
         const scores = {};
         decodedCategories.forEach(category => {
             const key = CATEGORY_KEY_MAP[category.name];
-            if (key) {
-                scores[key] = parseInt(category.values[0], 10);
-            }
+            if (key) scores[key] = parseInt(category.values[0], 10);
         });
 
         setLoadingInterp(true);
@@ -116,18 +118,9 @@ const decodedCategories = decodeCategoriesFromUrl(window.location.href);
         })
             .then(async res => {
                 const contentType = res.headers.get('content-type') || '';
-                const data = contentType.includes('application/json')
-                    ? await res.json()
-                    : null;
-
-                if (!res.ok) {
-                    throw new Error(data?.error || `Interpretation API returned ${res.status}`);
-                }
-
-                if (!data) {
-                    throw new Error('Interpretation API did not return JSON');
-                }
-
+                const data = contentType.includes('application/json') ? await res.json() : null;
+                if (!res.ok) throw new Error(data?.error || `API returned ${res.status}`);
+                if (!data) throw new Error('API did not return JSON');
                 return data;
             })
             .then(data => {
@@ -139,32 +132,19 @@ const decodedCategories = decodeCategoriesFromUrl(window.location.href);
                 setInterpError('Could not load your interpretation. Please try again later.');
             })
             .finally(() => setLoadingInterp(false));
-    // decodedCategories is derived from the initial URL; this request should run once.
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-      useEffect(() => {
-        // Create root element
+    useEffect(() => {
         const root = am5.Root.new('chartdiv');
-
-        // Set themes
         root.setThemes([am5themes_Animated.new(root)]);
 
-        // Create chart
         const chart = root.container.children.push(
-            am5radar.RadarChart.new(root, {
-                panX: false,
-                panY: false,
-                wheelX: 'panX',
-                wheelY: 'zoomX',
-            })
+            am5radar.RadarChart.new(root, { panX: false, panY: false, wheelX: 'panX', wheelY: 'zoomX' })
         );
 
-        // Create axes and their renderers
         const xRenderer = am5radar.AxisRendererCircular.new(root, {});
-        xRenderer.labels.template.setAll({
-            radius: 10,
-        });
+        xRenderer.labels.template.setAll({ radius: 10 });
 
         const xAxis = chart.xAxes.push(
             am5xy.CategoryAxis.new(root, {
@@ -179,27 +159,20 @@ const decodedCategories = decodeCategoriesFromUrl(window.location.href);
             am5xy.ValueAxis.new(root, {
                 min: 0,
                 max: 10,
-                renderer: am5radar.AxisRendererRadial.new(root, {
-                    minGridDistance: 20,
-                }),
+                renderer: am5radar.AxisRendererRadial.new(root, { minGridDistance: 20 }),
             })
         );
 
         yAxis.get('renderer').labels.template.set('forceHidden', true);
 
-        // Create series for current satisfaction
         const currentSeries = chart.series.push(
             am5radar.RadarColumnSeries.new(root, {
-                xAxis: xAxis,
-                yAxis: yAxis,
+                xAxis,
+                yAxis,
                 valueYField: 'currentValue',
                 categoryXField: 'category',
-
             })
         );
-
-
-      
 
         currentSeries.columns.template.setAll({
             tooltipText: 'Domain {category}',
@@ -208,226 +181,274 @@ const decodedCategories = decodeCategoriesFromUrl(window.location.href);
             width: am5.p100,
         });
 
-     
-        // Set data
-        const data = []
-
-        decodedCategories.forEach((category, index) => {
-            data.push({ category: index+1, currentValue: category.values[0],  columnSettings: { fill: chart.get('colors').next() } })
-        })
-
-        
-
-
+        const data = decodedCategories.map((category, index) => ({
+            category: index + 1,
+            currentValue: category.values[0],
+            columnSettings: { fill: chart.get('colors').next() }
+        }));
 
         currentSeries.data.setAll(data);
         xAxis.data.setAll(data);
-
-        // Animate chart
         currentSeries.appear(1000);
         chart.appear(1000, 100);
 
-        // Cleanup function
-        return () => {
-            root.dispose();
-        };
-
-    // decodedCategories is derived from the initial URL; the chart should initialize once.
+        return () => { root.dispose(); };
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const save = () => {
         const input = document.getElementById('res');
-
         html2canvas(input).then((canvas) => {
             const imgData = canvas.toDataURL('image/png');
             const pdf = new jsPDF();
-            const imgWidth = 190; // PDF width in mm
+            const imgWidth = 190;
             const pageHeight = pdf.internal.pageSize.height;
             const imgHeight = (canvas.height * imgWidth) / canvas.width;
             let heightLeft = imgHeight;
-
             let position = 0;
-
             pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
             heightLeft -= pageHeight;
-
             while (heightLeft >= 0) {
                 position = heightLeft - imgHeight;
                 pdf.addPage();
                 pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
                 heightLeft -= pageHeight;
             }
+            pdf.save('professional-leverage-results.pdf');
+        });
+    };
 
-            pdf.save('download.pdf');
-        })
-    }
+    const display = () => { seteBook(true); setHide(true); };
+    const hidden  = () => { seteBook(false); setHide(false); };
 
-    const styleIt = {textAlign:"center", width:"50%"}
-    
+    return (
+        <div className="diagnostic-page min-h-screen bg-[#070d16] text-white" id="res">
 
-      const display = () => {
-        seteBook(true)
-        setHide(true)
-      }
-
-      const hidden = () => {
-        seteBook(false)
-        setHide(false)
-      }
-
-
-    return ( <>
-
-<div id='res'>
-            <h1 style={{textAlign:"center"}}>Your Results</h1>
-            <div className="mean">
-                         <div className='range'>
-                        <h2> Your Wheel of Life score:</h2>
-                        <p>0% <input id="range" type="range" min="0" max="100" value={((mean_percent + balance)/2).toFixed(2)} /> 100%
-                        <p style={styleIt}> {((mean_percent + balance)/2).toFixed(2)}% </p>
-                        </p>
-                        </div>
-
-                        <div className='range'>
-                        <p>How circular is your wheel (rough measure of balance across domains)?: </p>
-                        <p>0% <input id="range" type="range" min="0" max="100" value={balance}/> 100%
-                        <p style={styleIt}>{balance}%</p>
-                        </p>
-                        </div>
-
-            </div>
-            <div className="result" id="result">
-                <div className="pie">
-                    <div id="chartdiv" className='chartdiv'></div>
-                   
-                </div>
-
-                <div className="chart">
-                    <table>
-                        
-                    <tr>
-                            <th>No.</th>
-                            <th>Life Domain</th>
-                            <th>Score</th>
-                        </tr>
-                        {decodedCategories.map((category, index) => (
-                        <tr key={index}>
-                            <td>Domain {index+1}</td>
-                            <td style={{textAlign:"left"}}>{category.name}</td>
-                            <td>{category.values[0]}</td>
-                        </tr>
-                    ))}
-
-                    </table>
-                    <button onClick={save} style={{width:'40%'}}>Download Your Result </button>
-
+            {/* Header */}
+            <div className="border-b border-[#D9A44A]/10">
+                <div className="max-w-6xl mx-auto px-6 py-8 flex justify-between items-center">
+                    <p className="text-[#D9A44A] uppercase tracking-widest text-xs">
+                        Professional Leverage Diagnostic
+                    </p>
+                    <button
+                        onClick={save}
+                        className="text-xs text-gray-400 border border-gray-700 rounded px-4 py-2 hover:border-[#D9A44A] hover:text-[#D9A44A] transition"
+                    >
+                        Download PDF
+                    </button>
                 </div>
             </div>
-            {/* AI Interpretation Section */}
-            <div className="interpretation" style={{padding:'20px 10% 20px 10%'}}>
+
+            <div className="max-w-6xl mx-auto px-6 py-14">
+
+                {/* Page title */}
+                <div className="mb-14 text-center">
+                    <h1 className="text-5xl lg:text-6xl font-serif mb-4">Your Results</h1>
+                    <p className="text-gray-400">Here is a read on where your professional leverage currently sits.</p>
+                </div>
+
+                {/* Score summary bars */}
+                <div className="grid md:grid-cols-2 gap-8 mb-14">
+                    <div className="border border-[#D9A44A]/20 rounded-xl bg-[#0b1220] p-8">
+                        <ScoreBar
+                            label="Overall Professional Leverage Score"
+                            value={overallScore}
+                            percent={parseFloat(overallScore)}
+                        />
+                        <ScoreBar
+                            label="Balance Across Domains"
+                            value={balance}
+                            percent={parseFloat(balance)}
+                        />
+                    </div>
+
+                    {/* Domain scores */}
+                    <div className="border border-[#D9A44A]/20 rounded-xl bg-[#0b1220] p-8">
+                        <p className="text-[#D9A44A] uppercase tracking-widest text-xs mb-6">Domain Scores</p>
+                        <div className="space-y-3">
+                            {decodedCategories.map((cat, i) => (
+                                <div key={i} className="flex justify-between items-center">
+                                    <span className="text-gray-400 text-sm">{cat.name}</span>
+                                    <span className="text-white font-semibold text-sm w-6 text-right">
+                                        {cat.values[0]}
+                                    </span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+
+                {/* Radar chart */}
+                <div className="border border-[#D9A44A]/20 rounded-xl bg-white p-4 mb-14 flex justify-center">
+                    <div id="chartdiv" style={{ width: '100%', maxWidth: '500px', height: '500px' }} />
+                </div>
+
+                {/* AI Interpretation */}
                 {loadingInterp && (
-                    <p style={{textAlign:'center', fontStyle:'italic', color:'#555'}}>Generating your professional leverage interpretation...</p>
+                    <div className="text-center py-12 mb-14">
+                        <div className="w-8 h-8 border-2 border-[#D9A44A] border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+                        <p className="text-gray-500 italic text-sm">Generating your professional leverage interpretation…</p>
+                    </div>
                 )}
+
                 {interpError && (
-                    <p style={{textAlign:'center', color:'red'}}>{interpError}</p>
+                    <div className="border border-red-800 bg-red-900/20 rounded-xl p-6 mb-14 text-center">
+                        <p className="text-red-400 text-sm">{interpError}</p>
+                    </div>
                 )}
+
                 {interpretation && (
-                    <div className="interp-content">
-                        <h2 style={{textAlign:'center', borderBottom:'2px solid #29ABE2', paddingBottom:'10px'}}>
+                    <div className="mb-14">
+                        <h2 className="text-3xl font-serif text-center mb-10">
                             Your Professional Leverage Pattern
                         </h2>
 
-                        <div className="interp-section" style={{marginBottom:'24px'}}>
-                            <h3 style={{color:'#29ABE2'}}>{interpretation.your_pattern.title}</h3>
-                            <p style={{fontSize:'large', fontWeight:'bold'}}>{interpretation.your_pattern.value}</p>
-                        </div>
+                        <div className="space-y-6">
 
-                        <div className="interp-section" style={{marginBottom:'24px'}}>
-                            <h3 style={{color:'#29ABE2'}}>{interpretation.what_this_pattern_suggests.title}</h3>
-                            {interpretation.what_this_pattern_suggests.short.map((s, i) => (
-                                <p key={i} style={{marginBottom:'6px'}}>{s}</p>
-                            ))}
-                            <ul style={{textAlign:'left', marginTop:'10px'}}>
-                                {interpretation.what_this_pattern_suggests.expanded.map((s, i) => (
-                                    <li key={i} style={{marginBottom:'6px', listStyle:'disc', fontSize:'medium'}}>{s}</li>
+                            {/* Pattern */}
+                            <div className="border border-[#D9A44A]/20 rounded-xl bg-[#0b1220] p-8">
+                                <p className="text-[#D9A44A] uppercase tracking-widest text-xs mb-3">
+                                    {interpretation.your_pattern.title}
+                                </p>
+                                <p className="text-2xl font-serif">{interpretation.your_pattern.value}</p>
+                            </div>
+
+                            {/* What this pattern suggests */}
+                            <div className="border border-[#D9A44A]/20 rounded-xl bg-[#0b1220] p-8">
+                                <p className="text-[#D9A44A] uppercase tracking-widest text-xs mb-4">
+                                    {interpretation.what_this_pattern_suggests.title}
+                                </p>
+                                {interpretation.what_this_pattern_suggests.short.map((s, i) => (
+                                    <p key={i} className="text-gray-300 mb-2">{s}</p>
                                 ))}
-                            </ul>
-                        </div>
+                                <ul className="mt-4 space-y-2">
+                                    {interpretation.what_this_pattern_suggests.expanded.map((s, i) => (
+                                        <li key={i} className="text-gray-400 text-sm flex gap-3">
+                                            <span className="text-[#D9A44A] flex-shrink-0">◈</span>
+                                            {s}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
 
-                        <div className="interp-section" style={{marginBottom:'24px'}}>
-                            <h3 style={{color:'#29ABE2'}}>{interpretation.what_may_be_quietly_costing_you.title}</h3>
-                            <ul style={{textAlign:'left'}}>
-                                {interpretation.what_may_be_quietly_costing_you.points.map((p, i) => (
-                                    <li key={i} style={{marginBottom:'6px', listStyle:'disc', fontSize:'medium'}}>{p}</li>
+                            {/* Quiet cost */}
+                            <div className="border border-[#D9A44A]/20 rounded-xl bg-[#0b1220] p-8">
+                                <p className="text-[#D9A44A] uppercase tracking-widest text-xs mb-4">
+                                    {interpretation.what_may_be_quietly_costing_you.title}
+                                </p>
+                                <ul className="space-y-2">
+                                    {interpretation.what_may_be_quietly_costing_you.points.map((p, i) => (
+                                        <li key={i} className="text-gray-400 text-sm flex gap-3">
+                                            <span className="text-[#D9A44A] flex-shrink-0">◈</span>
+                                            {p}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+
+                            {/* Hidden value */}
+                            <div className="border border-[#D9A44A]/20 rounded-xl bg-[#0b1220] p-8">
+                                <p className="text-[#D9A44A] uppercase tracking-widest text-xs mb-4">
+                                    {interpretation.where_hidden_value_may_be_sitting.title}
+                                </p>
+                                <ul className="space-y-2">
+                                    {interpretation.where_hidden_value_may_be_sitting.points.map((p, i) => (
+                                        <li key={i} className="text-gray-400 text-sm flex gap-3">
+                                            <span className="text-[#D9A44A] flex-shrink-0">◈</span>
+                                            {p}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+
+                            {/* What this may open up */}
+                            <div className="border border-[#D9A44A]/20 rounded-xl bg-[#0b1220] p-8">
+                                <p className="text-[#D9A44A] uppercase tracking-widest text-xs mb-4">
+                                    {interpretation.what_this_may_open_up.title}
+                                </p>
+                                <ul className="space-y-2">
+                                    {interpretation.what_this_may_open_up.points.map((p, i) => (
+                                        <li key={i} className="text-gray-400 text-sm flex gap-3">
+                                            <span className="text-[#D9A44A] flex-shrink-0">◈</span>
+                                            {p}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+
+                            {/* Audit bridge */}
+                            <div className="border-l-2 border-[#D9A44A] bg-[#0b1220] rounded-r-xl p-8">
+                                <p className="text-[#D9A44A] uppercase tracking-widest text-xs mb-4">
+                                    {interpretation.audit_bridge.title}
+                                </p>
+                                {interpretation.audit_bridge.body.map((b, i) => (
+                                    <p key={i} className="text-gray-300 text-sm mb-3">{b}</p>
                                 ))}
-                            </ul>
-                        </div>
+                            </div>
 
-                        <div className="interp-section" style={{marginBottom:'24px'}}>
-                            <h3 style={{color:'#29ABE2'}}>{interpretation.where_hidden_value_may_be_sitting.title}</h3>
-                            <ul style={{textAlign:'left'}}>
-                                {interpretation.where_hidden_value_may_be_sitting.points.map((p, i) => (
-                                    <li key={i} style={{marginBottom:'6px', listStyle:'disc', fontSize:'medium'}}>{p}</li>
-                                ))}
-                            </ul>
-                        </div>
-
-                        <div className="interp-section" style={{marginBottom:'24px'}}>
-                            <h3 style={{color:'#29ABE2'}}>{interpretation.what_this_may_open_up.title}</h3>
-                            <ul style={{textAlign:'left'}}>
-                                {interpretation.what_this_may_open_up.points.map((p, i) => (
-                                    <li key={i} style={{marginBottom:'6px', listStyle:'disc', fontSize:'medium'}}>{p}</li>
-                                ))}
-                            </ul>
-                        </div>
-
-                        <div className="interp-section" style={{background:'#f5f5f5', padding:'16px', borderLeft:'4px solid #29ABE2', marginBottom:'24px'}}>
-                            <h3 style={{color:'#29ABE2'}}>{interpretation.audit_bridge.title}</h3>
-                            {interpretation.audit_bridge.body.map((b, i) => (
-                                <p key={i} style={{fontSize:'medium', marginBottom:'8px'}}>{b}</p>
-                            ))}
                         </div>
                     </div>
                 )}
-            </div>
 
-                    <div className="observe">
-                    <h3> Looking at your wheel above: </h3>
-                    <li> How do you feel as you look at your wheel?</li>
-                    <li>Are there any surprises for you?</li>
-                    <li> How do you currently spend time in these areas?</li>
-                    <li>How would you like to spend time in these areas?</li>
-                    <li>What might you be avoiding looking at here?</li>
-                    <li>For each one, what would make that score a 10/10?</li>
-                    <li>What would definitely increase your score—even if it was really hard to do?</li>
-                    <li>Describe what a score of 10 would look like in those areas?</li>
-                    <li>Which of these categories would you most like to improve?</li>
-                    <li>We're all so busy these days: How could you make space for these changes in your life?</li>
-                    <li>What help and support might you need from others to make changes—and be more satisfied with your life?</li>
-                    <li> So, what is the smallest step you could take to get started?</li>
-                    <li>What will you do today or in the next 24 hours?</li>
-                    <li>If there was one key action that would begin to bring everything into balance, what would it be?</li>
-                    <li>What if time money/time/energy were not an issue? What could you do in each area?</li>
+                {/* Reflection questions */}
+                <div className="border border-[#D9A44A]/20 rounded-xl bg-[#0b1220] p-8 mb-14">
+                    <h3 className="text-[#D9A44A] uppercase tracking-widest text-xs mb-8">
+                        Looking at your results — questions worth sitting with
+                    </h3>
+                    <div className="space-y-4">
+                        {REFLECTION_QUESTIONS.map((q, i) => (
+                            <div key={i} className="flex gap-4">
+                                <span className="text-[#D9A44A]/50 text-xs mt-1 flex-shrink-0 font-mono">
+                                    {String(i + 1).padStart(2, '0')}
+                                </span>
+                                <p className="text-gray-400 text-sm leading-relaxed">{q}</p>
+                            </div>
+                        ))}
                     </div>
-            <div className="below">
-            <h3>Ready for the next step?</h3>
-           {hide === false && <button onClick={display}> Get Your eBook </button> }
-            <div className="eBook">
-            {eBook === true && <Embed />} 
-            </div>
-            {hide === true && <button onClick={hidden}> Close </button> }
-            </div>
-            </div>
-            <div>
-                <footer>	Made with ❤️ from Ibrahim Kaizen Coaching <a href="https://www.nextlevel10X.pro">Unleash your next level</a></footer>
+                </div>
+
+                {/* eBook CTA */}
+                <div className="text-center mb-14">
+                    <h3 className="text-2xl font-serif mb-6">Ready for the next step?</h3>
+                    {!hide && (
+                        <button
+                            onClick={display}
+                            className="bg-[#D9A44A] text-black font-semibold px-10 py-4 rounded-md hover:bg-[#c89435] transition text-base"
+                        >
+                            Get Your eBook
+                        </button>
+                    )}
+                    <div className="eBook mt-8" />
+                    {hide && (
+                        <button
+                            onClick={hidden}
+                            className="text-sm text-gray-500 border border-gray-700 rounded px-4 py-2 hover:border-gray-500 transition mt-4"
+                        >
+                            Close
+                        </button>
+                    )}
+                </div>
+                {eBook && <Embed />}
+
             </div>
 
-            
+            {/* Footer */}
+            <div className="border-t border-[#D9A44A]/10">
+                <div className="max-w-6xl mx-auto px-6 py-8 text-center">
+                    <p className="text-gray-600 text-sm">
+                        Made with care by Ibrahim Kaizen Coaching ·{' '}
+                        <a
+                            href="https://www.nextlevel10X.pro"
+                            className="text-[#D9A44A] hover:text-white transition"
+                        >
+                            Unleash your next level
+                        </a>
+                    </p>
+                </div>
+            </div>
 
-    
-
-    </> );
+        </div>
+    );
 }
- 
+
 export default Email;

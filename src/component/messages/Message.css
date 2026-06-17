@@ -5,7 +5,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(30, 30, 30, 0.8);
+  background-color: rgba(7, 13, 22, 0.92);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -16,15 +16,17 @@
 
 /* Modal Box */
 .message .card {
-  background-color: #fff;
+  background-color: #0b1220;
+  border: 1px solid rgba(217, 164, 74, 0.3);
   border-radius: 16px;
   padding: 2rem 2.5rem;
   max-width: 600px;
   width: 100%;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
   animation: slideUp 0.4s ease;
   position: relative;
   text-align: left;
+  color: white;
 }
 
 /* Top Confirm Section */
@@ -36,63 +38,63 @@
 }
 
 .confirm h2 {
-  font-size: 1.4rem;
-  color: #2c3e50;
+  font-size: 1.2rem;
+  color: #D9A44A;
   margin: 0;
+  font-family: Georgia, serif;
 }
 
 /* Close Button */
 .confirm .close {
-  background: none;
-  border: none;
-  font-size: 1.2rem;
+  all: unset;
+  font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
-  color: #ff0000;
+  color: #9ca3af;
   position: absolute;
-  top: 15px;
+  top: 16px;
   right: 20px;
   line-height: 1;
-  transition: color 0.3s ease;
+  transition: color 0.2s ease;
 }
 
-
-
 .confirm .close:hover {
-  transform: scale(1.2);
+  color: white;
 }
 
 /* Description Text */
-.card h5 {
-  color: #e74c3c;
-  font-size: 0.95rem;
+.message .card h5 {
+  color: #9ca3af;
+  font-size: 0.9rem;
   margin-bottom: 1rem;
-  line-height: 1.4;
+  line-height: 1.5;
+  font-weight: normal;
 }
 
-.card h3 {
+.message .card h3 {
   margin-top: 1.2rem;
-  font-size: 1.1rem;
-  color: #34495e;
+  font-size: 1rem;
+  color: #D9A44A;
+  font-family: Georgia, serif;
 }
 
-.card p {
+.message .card p {
   font-size: 0.95rem;
-  color: #555;
+  color: #d1d5db;
   margin-top: 0.5rem;
   line-height: 1.6;
 }
 
-.card ul {
+.message .card ul {
   margin-top: 0.5rem;
   padding-left: 1.2rem;
 }
 
-.card li {
+.message .card li {
   list-style: disc;
   font-size: 0.95rem;
   margin-bottom: 0.5rem;
-  color: #444;
+  color: #9ca3af;
 }
 
 /* Navigation Buttons */
@@ -106,48 +108,33 @@
   position: relative;
 }
 
-/* General button styling */
 .ref-button button {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #3498db;
-  color: #fff;
-  border: none;
+  background-color: transparent;
+  color: #D9A44A;
+  border: 1px solid rgba(217, 164, 74, 0.3);
   padding: 0.6rem 1.2rem;
   border-radius: 8px;
   font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .ref-button button:hover {
-  background-color: #2980b9;
+  background-color: rgba(217, 164, 74, 0.1);
+  color: white;
 }
 
-/* Navigation icon buttons */
-.ref-button .prev img {
-  height: 20px;
-  width: 20px;
+.ref-button .prev img,
+.ref-button .next img {
+  height: 18px;
+  width: 18px;
+  filter: invert(1) sepia(1) saturate(2) hue-rotate(5deg) brightness(1.2);
 }
 
-
-
-/* Wrapper for button and overlapping label */
-.button-wrapper {
-  margin-top: -25px;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 180px;
-  /* Match side buttons */
-  height: 22px;
-  /* Match side buttons */
-  flex-shrink: 0;
-}
-
-/* Hide the real button but keep it in flow */
+/* Hidden confirm button */
 #myButton {
   opacity: 0;
   pointer-events: none;
@@ -161,75 +148,55 @@
   z-index: 1;
 }
 
-/* Style label to match button */
+/* Confirm label (acts as button) */
 .select {
   position: absolute;
   margin-top: -25px;
   left: 50%;
   transform: translateX(-50%);
-  padding: 0.6rem 1.2rem;
-  background-color: #27ae60;
-  color: white;
+  padding: 0.6rem 1.4rem;
+  background-color: #D9A44A;
+  color: #000;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid white;
+  border: none;
   border-radius: 8px;
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: bold;
   cursor: pointer;
   z-index: 2;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.2s ease;
   text-align: center;
   white-space: nowrap;
 }
 
 .select:hover {
-  background-color: #1e8449;
+  background-color: #c89435;
 }
-
 
 /* Animations */
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 @keyframes slideUp {
-  from {
-    transform: translateY(30px);
-    opacity: 0;
-  }
-
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
+  from { transform: translateY(30px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
 }
 
-/* Mobile Responsive */
+/* Mobile */
 @media (max-width: 480px) {
   .message .card {
     padding: 1.5rem;
   }
 
   .ref-button {
-    /* flex-direction: column; */
-    gap: 0.2rem;
-  }
-
-  .ref-button button {
-    width: 10%;
+    gap: 0.3rem;
   }
 
   .confirm h2 {
-    font-size: 1.1rem;
+    font-size: 1rem;
   }
-
-
 }

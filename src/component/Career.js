@@ -1,12 +1,16 @@
-const Career = ({question, clarifier}) => {
+const Career = ({ question, clarifier }) => {
     return (
-        <>
-        <div className="question-answer">
-            <p className="pq">{question}</p>
-            {clarifier && <p className="clarifier"><i>{clarifier}</i></p>}
+        <div className="mb-10">
+            <h2 className="text-3xl lg:text-4xl font-serif leading-snug text-white mb-5">
+                {question}
+            </h2>
+            {clarifier && (
+                <p className="text-[#D9A44A] italic text-lg">
+                    {clarifier}
+                </p>
+            )}
         </div>
-        </>
-     );
+    );
 }
- 
+
 export default Career;

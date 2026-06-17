@@ -1,7 +1,53 @@
+@import "tailwindcss";
+
 body{
         margin:0;
         padding:0;
         font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+/* Reset global overrides for the new diagnostic landing page */
+.diagnostic-page {
+  font-family: Georgia, 'Times New Roman', serif;
+}
+.diagnostic-page h1 {
+  text-align: unset;
+  font-size: unset;
+  font-weight: unset;
+  padding: 0;
+}
+.diagnostic-page h2,
+.diagnostic-page h3,
+.diagnostic-page h4 {
+  text-align: unset;
+  font-size: unset;
+}
+.diagnostic-page p {
+  font-size: unset;
+}
+.diagnostic-page a {
+  color: unset;
+  font-size: unset;
+}
+.diagnostic-page span {
+  display: unset;
+  border: none;
+  padding: 0;
+  width: unset;
+  margin: 0;
+  border-radius: 0;
+  cursor: unset;
+}
+.diagnostic-page li {
+  list-style: none;
+  margin-bottom: 0;
+}
+.diagnostic-page button {
+  all: unset;
+  cursor: pointer;
+}
+.diagnostic-page hr {
+  display: none;
 }
 
 h1{
@@ -228,17 +274,7 @@ ol{
     }
     
     
-    header{
-                width: 100%;
-                padding: 40px;
-                box-sizing: border-box;
-                background-color: #29ABE2;
-                color:white;
-                font-size: 60px;
-                font-weight: bolder;
-                text-align: center;
-                
-}
+   
 
 .title {
                 text-align: center;
