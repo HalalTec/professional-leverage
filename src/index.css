@@ -12,8 +12,6 @@ body{
 }
 .diagnostic-page h1 {
   text-align: unset;
-  font-size: unset;
-  font-weight: unset;
   padding: 0;
 }
 .diagnostic-page h2,

@@ -201,7 +201,7 @@ const Test = () => {
                                     <button
                                         key={n}
                                         onClick={confirm}
-                                        className="h-20 rounded-lg border border-[#6B4E1D] text-[#D4A24A] hover:border-[#D4A24A] transition-all duration-200 text-3xl font-semibold"
+                                        className="!h-20 !w-full !flex !items-center !justify-center !rounded-xl !border-2 !border-[#D4A24A] !text-[#D4A24A] !text-3xl !font-semibold !cursor-pointer !transition-all !duration-200 hover:!bg-[#D4A24A] hover:!text-black"
                                     >
                                         {n}
                                     </button>

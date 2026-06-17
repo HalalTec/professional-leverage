@@ -5,7 +5,7 @@ export default function Hero() {
 
         <div>
           <div className="mb-8">
-            <h1 className="text-5xl md:text-6xl lg:text-7xl leading-tight font-serif max-w-xl">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl leading-tight font-serif font-semibold max-w-xl">
               You may be carrying
               <br />
               more <span className="text-[#D9A44A]">value</span> than your
@@ -34,50 +34,11 @@ export default function Hero() {
         </div>
 
         <div className="relative">
-          <div className="bg-gradient-to-br from-[#111827] to-[#05070d]
-          border border-[#D9A44A]/20 rounded-xl p-8 shadow-2xl">
-
-            <p className="uppercase text-[#D9A44A] text-sm tracking-widest">
-              Your Professional Pattern
-            </p>
-
-            <h3 className="text-4xl font-serif mt-4">
-              Trusted But
-              <br />
-              Under-Positioned
-            </h3>
-
-            <div className="space-y-6 mt-8">
-
-              <div>
-                <h4 className="text-[#D9A44A] font-semibold">
-                  What This Suggests
-                </h4>
-                <p className="text-gray-400">
-                  Strong evidence and trust. Weak translation and positioning.
-                </p>
-              </div>
-
-              <div>
-                <h4 className="text-[#D9A44A] font-semibold">
-                  Quiet Cost
-                </h4>
-                <p className="text-gray-400">
-                  Hidden value staying hidden.
-                </p>
-              </div>
-
-              <div>
-                <h4 className="text-[#D9A44A] font-semibold">
-                  Potential Opening
-                </h4>
-                <p className="text-gray-400">
-                  Sharper positioning. Better next moves.
-                </p>
-              </div>
-
-            </div>
-          </div>
+          <img
+            src={require('./side.png')}
+            alt="Professional Leverage"
+            className="w-full h-56 object-cover rounded-xl"
+          />
         </div>
 
       </div>
