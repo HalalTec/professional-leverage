@@ -43,7 +43,7 @@ export default function RevealSection() {
             rounded-lg p-8 bg-[#0b1220]"
           >
             <div
-              className="w-[108px] h-[72px] mb-5 mx-auto bg-no-repeat"
+              className="w-[150px] h-[100px] mb-5 mx-auto bg-no-repeat"
               style={{
                 backgroundImage: `url(${icons})`,
                 backgroundSize: "200% 200%",

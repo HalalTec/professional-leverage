@@ -5,14 +5,17 @@ export default function Hero() {
 
         <div>
           <div className="mb-8">
-            <h1 className="text-5xl md:text-6xl lg:text-7xl leading-tight font-serif font-semibold max-w-xl">
-              You may be carrying
-              <br />
-              more <span className="text-7xl md:text-8xl lg:text-9xl text-[#D9A44A] inline-block">value</span> than your
-              <br />
-              career currently reflects.
-            </h1>
-
+           <h1 className="text-5xl md:text-6xl lg:text-7xl leading-tight font-serif font-semibold max-w-xl">
+            You may be carrying
+            <br />
+            more{" "}
+            <span className="text-[#D9A44A] text-[1.2em] font-semibold inline-block">
+              value
+            </span>{" "}
+            than your
+            <br />
+            career currently reflects.
+          </h1>
             <p className="mt-8 text-xl text-gray-300 max-w-xl">
               The Professional Leverage Blind Spot Diagnostic helps
               experienced professionals uncover hidden gaps in clarity,

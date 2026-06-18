@@ -9,6 +9,7 @@ import * as am5xy from "@amcharts/amcharts5/xy";
 import * as am5radar from '@amcharts/amcharts5/radar';
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
 import Embed from './Embed';
+import Header from './Header';
 
 const CATEGORY_KEY_MAP = {
     'Identity Clarity':               'identity_clarity',
@@ -223,6 +224,8 @@ const Email = () => {
 
     return (
         <div className="diagnostic-page min-h-screen bg-[#070d16] text-white" id="res">
+
+            <Header />
 
             {/* Header */}
             <div className="border-b border-[#D9A44A]/10">

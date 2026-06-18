@@ -4,6 +4,7 @@ import Career from "./Career";
 import Result from "./Result";
 import Carousel from "./Carousel";
 import Message from "./Message";
+import Header from "./Header";
 
 const Test = () => {
     const [counter, setCounter] = useState(1);
@@ -120,30 +121,7 @@ const Test = () => {
     return (
         <div className="diagnostic-page min-h-screen bg-[#0A0A0A] text-white">
 
-            {/* Header */}
-            <header className="bg-black border-b border-[#1f2937]">
-                <div className="max-w-7xl w-full px-6 sm:px-8 py-4 sm:py-6 flex flex-col sm:flex-row items-center sm:justify-between gap-3 sm:gap-0">
-                    <div className="flex items-stretch gap-2 sm:gap-4">
-                        <div className="border border-[#D4A24A] flex items-center justify-center text-[#D4A24A] font-serif text-sm sm:text-xl px-2 sm:px-4">
-                            PL
-                        </div>
-                        <div className="flex flex-col justify-center">
-                            <h1 className="text-[#D4A24A] tracking-wider font-bold text-xs sm:text-xl leading-none">
-                                PROFLEVERAGE
-                            </h1>
-                            <p className="text-[3.5px] sm:text-[6px] text-gray-400 tracking-[0.1em] sm:tracking-[0.15em] mt-1">
-                                CLARITY. LEVERAGE. NEXT LEVEL.
-                            </p>
-                        </div>
-                        </div>
-                    <div className="flex items-center gap-2 text-gray-400 text-[11px] sm:text-sm">
-                        <Shield size={12} className="shrink-0 sm:hidden" />
-                        <Shield size={16} className="shrink-0 hidden sm:block" />
-                        <span>Your responses are confidential</span>
-                    </div>
-                </div>
-            </header>
-
+            <Header />
             {counter <= 8 && (
                 <main className="px-6 py-10">
                     <div className="max-w-6xl mx-auto border border-[#1f2937] rounded-2xl bg-[#050C17] px-8 md:px-20 py-16">

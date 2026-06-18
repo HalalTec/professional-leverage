@@ -28,7 +28,7 @@ export default function BenefitsSection() {
             className="border-r border-[#D9A44A]/20 last:border-none"
           >
             <div
-              className="w-16 h-[109px] mb-4 mx-auto bg-no-repeat"
+              className="w-24 h-[164px] mb-4 mx-auto bg-no-repeat"
               style={{
                 backgroundImage: `url(${icon2})`,
                 backgroundSize: "500% 100%",
