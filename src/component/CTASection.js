@@ -1,28 +1,41 @@
+import { Lock, ArrowRight } from "lucide-react";
+
 export default function CTASection() {
   return (
-    <section className="max-w-4xl mx-auto px-6 py-24 text-center border border-[#D9A44A]/60 rounded-2xl">
+    <section className="w-full bg-[#050B14] px-6 py-20">
+      <div className="max-w-6xl mx-auto relative">
 
-      <p className="text-[#D9A44A] uppercase tracking-widest text-sm mb-6">
-        Free · 5 Minutes · No Fluff
-      </p>
+        {/* Horizontal top lines */}
+        <div className="absolute top-0 left-0 w-full flex items-center">
+          <div className="flex-1 h-px bg-[#3E3222]" />
 
-      <h2 className="text-4xl lg:text-5xl font-serif leading-tight mb-10">
-        Ready to see your
-        <br />
-        professional pattern?
-      </h2>
+          {/* PL Circle */}
+          <div className="w-14 h-14 rounded-full border border-[#C89B43] bg-[#050B14] flex items-center justify-center text-[#C89B43] font-serif text-xl mx-4 z-10">
+            PL
+          </div>
 
-      <button
-        className="bg-[#D9A44A] text-black font-semibold px-10 py-4 rounded-md hover:bg-[#c89435] transition text-lg"
-        onClick={() => window.location.href = '/wheel'}
-      >
-        Start Your Free Diagnostic →
-      </button>
+          <div className="flex-1 h-px bg-[#3E3222]" />
+        </div>
 
-      <p className="mt-8 text-gray-500 text-sm">
-        Takes 5 minutes. Insight lasts much longer.
-      </p>
+        {/* Main Card */}
+        <div className="border border-[#3A2E20] rounded-md bg-[#07111B] pt-16 pb-10 px-8 md:px-16 text-center">
 
+          {/* Title */}
+          <h2 className="text-center text-white font-serif text-[28px] md:text-[42px] font-light tracking-tight leading-tight">
+            Ready to uncover what’s been hidden?
+          </h2>
+
+          {/* Button */}
+         <a href="/wheel" className="inline-block mt-8 bg-[#D9A44A] text-black font-semibold px-8 py-4 rounded-md hover:bg-[#c89435] transition">
+            Start Your Free 5-Minute Diagnostic →
+          </a>
+          {/* Footer Note */}
+          <div className="flex items-center justify-center gap-2 mt-5 text-gray-400 text-sm">
+            <Lock size={14} className="text-[#C89B43]" />
+            <span>Your results are immediate.</span>
+          </div>
+        </div>
+      </div>
     </section>
   );
 }

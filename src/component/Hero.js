@@ -8,7 +8,7 @@ export default function Hero() {
             <h1 className="text-5xl md:text-6xl lg:text-7xl leading-tight font-serif font-semibold max-w-xl">
               You may be carrying
               <br />
-              more <span className="text-[#D9A44A]">value</span> than your
+              more <span className="text-7xl md:text-8xl lg:text-9xl text-[#D9A44A] inline-block">value</span> than your
               <br />
               career currently reflects.
             </h1>
@@ -20,12 +20,35 @@ export default function Hero() {
             </p>
           </div>
 
-          <a href="/wheel" className="inline-block bg-orange-500 text-black font-semibold px-8 py-4 rounded-md hover:bg-orange-600 transition">
+          <a href="/wheel" className="inline-block bg-[#D9A44A] text-black font-semibold px-8 py-4 rounded-md hover:bg-[#c89435] transition">
             Start Your Free 5-Minute Diagnostic →
           </a>
 
           <div className="mt-8 flex items-center gap-3 text-gray-400">
-            <span>🛡️</span>
+            <span><svg 
+  xmlns="http://www.w3.org/2000/svg" 
+  viewBox="0 0 24 24" 
+  width="48" 
+  height="48" 
+  fill="none"
+>
+  <path 
+    d="M12 22C12 22 20 18 20 12V5L12 2L4 5V12C4 18 12 22 12 22Z" 
+    stroke="#D4AF37" 
+    stroke-width="2" 
+    stroke-linejoin="round"
+  />
+    <path 
+    d="M12 7V17L17 12H14V9L12 7Z" 
+    fill="#D4AF37" 
+    opacity="0.9"
+  />
+  <path 
+    d="M12 17V12L7 9V14L12 17Z" 
+    fill="#D4AF37" 
+    opacity="0.6"
+  />
+</svg></span>
             <p>
               Used by ambitious professionals navigating growth,
               transition and next-level decisions.
@@ -33,13 +56,13 @@ export default function Hero() {
           </div>
         </div>
 
-        <div className="relative">
-          <img
-            src={require('./side.png')}
-            alt="Professional Leverage"
-            className="w-full h-56 object-cover rounded-xl"
-          />
-        </div>
+       <div className="relative w-full h-[600px]">
+      <img
+        src={require('./side.png')}
+        alt="Professional Leverage"
+        className="w-full h-full object-contain rounded-xl"
+      />
+    </div>
 
       </div>
     </section>
