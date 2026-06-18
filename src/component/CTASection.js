@@ -1,4 +1,4 @@
-import { Lock, ArrowRight } from "lucide-react";
+import { Lock } from "lucide-react";
 
 export default function CTASection() {
   return (
