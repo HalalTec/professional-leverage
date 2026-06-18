@@ -9,7 +9,7 @@ export default function Hero() {
             You may be carrying
             <br />
             more{" "}
-            <span className="text-[#D9A44A] text-[1.2em] font-semibold inline-block">
+            <span className="text-[#D9A44A] font-semibold inline-block w-auto">
               value
             </span>{" "}
             than your

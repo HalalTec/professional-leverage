@@ -14,7 +14,7 @@ const Header = () => {
 
           <div className="flex flex-col leading-none">
 
-            <h1 className="text-[#D4A24A] font-bold text-[9px] sm:text-xl tracking-[0.06em] sm:tracking-wider leading-none">
+            <h1 className="text-[#D4A24A] font-bold text-[6px] sm:text-xl tracking-[0.06em] sm:tracking-wider leading-none">
               PROFLEVERAGE
             </h1>
 
