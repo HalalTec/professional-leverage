@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Clock3, Info } from "lucide-react";
 import Career from "./Career";
 import Result from "./Result";
-import Carousel from "./Carousel";
 import ResultCard from "./ResultCard";
 import Header from "./Header";
 
@@ -17,13 +16,6 @@ const Test = () => {
     const [fun, setFun] = useState([])
     const [physical, setPhysical] = useState([])
     const [spirit, setSpirit] = useState([])
-    const [item, setItem] = useState([
-        "You mostly describe your job, not who you are.",
-        "You can explain your experience, but not your deeper pattern.",
-        "You know who you are, but some parts are still hard to explain.",
-        "You know your professional identity very well."
-    ])
-    const tip = ["Scores 1-3", "Scores 4-6", "Scores 7-8", "Scores 9-10"]
     const [message, setMessage] = useState(false)
     const [msg, setMsg] = useState(0)
 
@@ -38,72 +30,37 @@ const Test = () => {
         if (counter === 1) {
             setCareer([...career, ans]);
             setP("Value Articulation");
-            setItem([
-                "It is hard to explain what you really bring.",
-                "You can explain your value, but it takes time.",
-                "Your value is mostly clear.",
-                "People quickly understand your value."
-            ]);
+
         }
         if (counter === 2) {
             setMoney([...money, ans]);
             setP("Evidence Visibility");
-            setItem([
-                "Your wins feel buried.",
-                "You have proof, but some of it is scattered.",
-                "Your proof is strong.",
-                "Your proof is easy to find."
-            ]);
+
         }
         if (counter === 3) {
             setHealth([...health, ans]);
             setP("Signature Strength Recognition");
-            setItem([
-                "You may not know your strongest repeat strengths.",
-                "You know some strengths, but not the full pattern.",
-                "Your strengths are mostly clear.",
-                "You know your strongest abilities well."
-            ]);
+
         }
         if (counter === 4) {
             setRel([...rel, ans]);
             setP("Trust Pattern Awareness");
-            setItem([
-                "You may not notice your trust patterns.",
-                "You see some trust patterns, but not all.",
-                "You can see what people trust you with.",
-                "You clearly know what people trust you with."
-            ]);
+
         }
         if (counter === 5) {
             setPer((prev) => [...prev, ans]);
             setP("Positioning Strength");
-            setItem([
-                "Your outside image may feel smaller than your real value.",
-                "Some of your value is visible, but not all of it.",
-                "Your positioning is strong, but not complete.",
-                "Your outside image matches your real value well."
-            ]);
+
         }
         if (counter === 6) {
             setFun((prev) => [...prev, ans]);
             setP("Next-Move Clarity");
-            setItem([
-                "Your next move feels foggy or stuck.",
-                "You have good options, but no clear best one.",
-                "Your direction is mostly clear.",
-                "Your next move feels clear and grounded."
-            ]);
+
         }
         if (counter === 7) {
             setPhysical((prev) => [...prev, ans]);
             setP("Leverage Utilization");
-            setItem([
-                "A lot of your energy may be going into low-return work.",
-                "Some of your strengths are working well, but not all.",
-                "Your leverage is strong, but not fully stretched.",
-                "Your strongest assets are being used in smart ways."
-            ]);
+
         }
         if (counter === 8) {
             setSpirit((prev) => [...prev, ans]);
@@ -167,9 +124,6 @@ const Test = () => {
                                 <span>There are no right answers. Go with what feels most true right now.</span>
                             </div>
                         </div>
-
-                        {/* Carousel */}
-                        {/* <Carousel items={item} tips={tip} /> */}
 
                         {/* Score grid */}
                         <div className="max-w-5xl mx-auto mt-14">
