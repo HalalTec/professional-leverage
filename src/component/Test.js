@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { Shield, Clock3, Info } from "lucide-react";
+import { Clock3, Info } from "lucide-react";
 import Career from "./Career";
 import Result from "./Result";
 import Carousel from "./Carousel";
-import Message from "./Message";
+import ResultCard from "./ResultCard";
 import Header from "./Header";
 
 const Test = () => {
@@ -28,13 +28,11 @@ const Test = () => {
     const [msg, setMsg] = useState(0)
 
     const confirm = (e) => {
-        setMsg(e.target.textContent)
+        setMsg(Number(e.currentTarget.textContent))
         setMessage(true)
     }
 
-    const submit = (e) => {
-        e.preventDefault();
-        let ans = e.target.textContent;
+    const submit = (ans) => {
         setCounter(counter + 1);
 
         if (counter === 1) {
@@ -171,7 +169,7 @@ const Test = () => {
                         </div>
 
                         {/* Carousel */}
-                        <Carousel items={item} tips={tip} />
+                        {/* <Carousel items={item} tips={tip} /> */}
 
                         {/* Score grid */}
                         <div className="max-w-5xl mx-auto mt-14">
@@ -180,7 +178,7 @@ const Test = () => {
                                     <button
                                         key={n}
                                         onClick={confirm}
-                                        className="!h-20 !w-full !flex !items-center !justify-center !rounded-xl !border-2 !border-[#D4A24A] !text-[#D4A24A] !text-3xl !font-semibold !cursor-pointer !transition-all !duration-200 hover:!bg-[#D4A24A] hover:!text-black"
+                                        className={`!h-14 !w-full !flex !items-center !justify-center !rounded-xl !border-2 !border-[#D4A24A] !text-xl !font-semibold !cursor-pointer !transition-all !duration-200 hover:!bg-[#D4A24A] hover:!text-black ${message && msg === n ? "!bg-[#D4A24A] !text-black" : "!bg-transparent !text-[#D4A24A]"}`}
                                     >
                                         {n}
                                     </button>
@@ -190,23 +188,20 @@ const Test = () => {
                                 <span>Strong No</span>
                                 <span>Strong Yes</span>
                             </div>
-                        </div>
 
-                        {/* Footer */}
-                        <div className="flex justify-center mt-20">
-                            <div className="flex items-center gap-2 text-gray-500">
-                                <Shield size={16} className="text-[#D4A24A]" />
-                                <span>Your results are for your eyes only.</span>
-                            </div>
+
+                            {message && (
+                                <ResultCard
+                                    category={p}
+                                    score={msg}
+                                    onAdjust={close}
+                                    onConfirm={() => submit(msg)}
+                                />
+                            )}
                         </div>
 
                     </div>
                 </main>
-            )}
-
-            {/* Confirmation modal */}
-            {message === true && (
-                <Message msg={msg - 1} close={close} p={p} submit={submit} quest={0} />
             )}
 
             {/* Results */}

@@ -18,14 +18,11 @@ body{
 .diagnostic-page h3,
 .diagnostic-page h4 {
   text-align: unset;
-  font-size: unset;
 }
 .diagnostic-page p {
-  font-size: unset;
 }
 .diagnostic-page a {
   color: unset;
-  font-size: unset;
 }
 .diagnostic-page span {
   display: unset;
@@ -589,12 +586,7 @@ tr td+td{
                         width:100%;
                         height: 100%;
         }
-
-        header {
-                        font-size: x-large;
-        }
-
-        .confirm {
+.confirm {
                         padding-left: 10px;
                         text-align: center;
         }

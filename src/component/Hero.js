@@ -1,65 +1,76 @@
 export default function Hero() {
   return (
-    <section className="max-w-7xl mx-auto px-6 py-20">
+    <section className="max-w-7xl mx-auto px-6 pt-0 pb-0 mb-0">
       <div className="grid lg:grid-cols-2 gap-16 items-center">
 
-        <div>
-          <div className="mb-8">
-           <h1 className="text-5xl md:text-6xl lg:text-7xl leading-tight font-serif font-semibold max-w-xl">
-            You may be carrying
-            <br />
-            more{" "}
-            <span className="text-[#D9A44A] font-semibold inline-block w-auto">
-              value
-            </span>{" "}
-            than your
-            <br />
-            career currently reflects.
-          </h1>
-            <p className="mt-8 text-xl text-gray-300 max-w-xl">
-              The Professional Leverage Blind Spot Diagnostic helps
-              experienced professionals uncover hidden gaps in clarity,
-              positioning, trust and leverage.
-            </p>
-          </div>
+        <div className="max-w-2xl">
+  {/* Hero Text */}
+  <div className="mb-10">
+    <h1 className="font-['Cormorant_Garamond'] text-[48px] md:text-[64px] leading-[1.05] tracking-[-0.03em] font-medium text-white">
+      You may be carrying
+      <br />
+      more{" "}
+      <span className="text-[#D9A44A]">
+        value
+      </span>{" "}
+      than your
+      <br />
+      career currently reflects.
+    </h1>
 
-          <a href="/wheel" className="inline-block bg-[#D9A44A] text-black font-semibold px-8 py-4 rounded-md hover:bg-[#c89435] transition">
-            Start Your Free 5-Minute Diagnostic →
-          </a>
+    <p className="mt-8 text-[18px] leading-[1.8] text-gray-400 max-w-xl">
+      The Professional Leverage Blind Spot Diagnostic™ helps
+      experienced professionals uncover hidden gaps in clarity,
+      positioning, trust, and leverage — in just 5 minutes.
+    </p>
+  </div>
 
-          <div className="mt-8 flex items-center gap-3 text-gray-400">
-            <span><svg 
-  xmlns="http://www.w3.org/2000/svg" 
-  viewBox="0 0 24 24" 
-  width="48" 
-  height="48" 
-  fill="none"
->
-  <path 
-    d="M12 22C12 22 20 18 20 12V5L12 2L4 5V12C4 18 12 22 12 22Z" 
-    stroke="#D4AF37" 
-    stroke-width="2" 
-    stroke-linejoin="round"
-  />
-    <path 
-    d="M12 7V17L17 12H14V9L12 7Z" 
-    fill="#D4AF37" 
-    opacity="0.9"
-  />
-  <path 
-    d="M12 17V12L7 9V14L12 17Z" 
-    fill="#D4AF37" 
-    opacity="0.6"
-  />
-</svg></span>
-            <p>
-              Used by ambitious professionals navigating growth,
-              transition and next-level decisions.
-            </p>
-          </div>
-        </div>
+  {/* CTA Button */}
+  <a
+    href="/wheel"
+    className="inline-flex items-center gap-3 bg-[#D9A44A] text-black font-semibold px-8 py-4 rounded-md hover:bg-[#C4975B] transition duration-300"
+  >
+    Start Your Free 5-Minute Diagnostic
+    <span className="text-xl">→</span>
+  </a>
 
-       <div className="relative w-full h-[600px]">
+  {/* Footer Note */}
+  <div className="mt-8 flex items-start gap-4 text-gray-400 max-w-lg">
+    <div className="shrink-0 mt-1">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        width="28"
+        height="28"
+        fill="none"
+      >
+        <path
+          d="M12 22C12 22 20 18 20 12V5L12 2L4 5V12C4 18 12 22 12 22Z"
+          stroke="#D4AF37"
+          strokeWidth="2"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M12 7V17L17 12H14V9L12 7Z"
+          fill="#D4AF37"
+          opacity="0.9"
+        />
+        <path
+          d="M12 17V12L7 9V14L12 17Z"
+          fill="#D4AF37"
+          opacity="0.6"
+        />
+      </svg>
+    </div>
+
+    <p className="text-[16px] leading-[1.7]">
+      Used by ambitious professionals navigating growth,
+      transition, and next-level decisions.
+    </p>
+  </div>
+</div>
+
+       <div className="relative w-full h-full">
       <img
         src={require('./side.png')}
         alt="Professional Leverage"
