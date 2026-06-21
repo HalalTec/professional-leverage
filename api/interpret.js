@@ -152,6 +152,10 @@ your_pattern.value:
 - 2 to 5 words
 - hard maximum 6 words
 
+your_pattern.summary:
+- exactly 2 items
+- each item should be one short sentence
+
 what_this_pattern_suggests.short:
 - exactly 3 items
 - each item should be one sentence
@@ -208,8 +212,14 @@ const RESPONSE_FORMAT = {
         properties: {
           title: { type: "string" },
           value: { type: "string" },
+          summary: {
+            type: "array",
+            items: { type: "string" },
+            minItems: 2,
+            maxItems: 2,
+          },
         },
-        required: ["title", "value"],
+        required: ["title", "value", "summary"],
       },
 
       what_this_pattern_suggests: {

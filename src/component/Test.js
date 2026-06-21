@@ -4,6 +4,7 @@ import Career from "./Career";
 import Result from "./Result";
 import ResultCard from "./ResultCard";
 import Header from "./Header";
+import FinalStepForm from "./form";
 
 const Test = () => {
     const [counter, setCounter] = useState(1);
@@ -18,6 +19,7 @@ const Test = () => {
     const [spirit, setSpirit] = useState([])
     const [message, setMessage] = useState(false)
     const [msg, setMsg] = useState(0)
+    const [formCompleted, setFormCompleted] = useState(false)
 
     const confirm = (e) => {
         setMsg(Number(e.currentTarget.textContent))
@@ -158,8 +160,17 @@ const Test = () => {
                 </main>
             )}
 
+            {/* Final details form */}
+            {counter > 8 && !formCompleted && (
+                <main className="px-4 py-10 md:px-6">
+                    <div className="max-w-6xl mx-auto">
+                        <FinalStepForm onComplete={() => setFormCompleted(true)} />
+                    </div>
+                </main>
+            )}
+
             {/* Results */}
-            {counter > 8 && (
+            {counter > 8 && formCompleted && (
                 <Result
                     career={career}
                     money={money}
