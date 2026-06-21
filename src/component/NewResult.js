@@ -14,10 +14,10 @@ import {
 import ScoreSnapshot from "./ScoreSnapshot";
 
 const BulletList = ({ items }) => (
-  <ul className="space-y-3 text-sm leading-relaxed text-slate-300">
+  <ul className="space-y-3 text-left text-xs leading-relaxed text-slate-300 sm:text-[13px]">
     {items.map((item, index) => (
-      <li key={index} className="flex gap-2">
-        <span className="text-[#D4A44B]" aria-hidden="true">•</span>
+      <li key={index} className="flex items-start gap-2 text-left">
+        <span className="shrink-0 text-[#D4A44B]" aria-hidden="true">•</span>
         <span>{item}</span>
       </li>
     ))}
@@ -49,11 +49,11 @@ export default function NewResult({ interpretation, scores }) {
           {pattern.title}
         </p>
 
-        <h1 className="font-serif text-4xl text-white md:text-6xl">
+        <h1 className="font-serif text-3xl text-white sm:text-4xl md:text-5xl">
           {pattern.value}
         </h1>
 
-        <div className="mt-4 space-y-1 text-lg leading-relaxed text-slate-300">
+        <div className="mt-4 space-y-1 text-base leading-relaxed text-slate-300 sm:text-base">
           {pattern.summary.map((line, index) => (
             <p key={index}>{line}</p>
           ))}
@@ -67,11 +67,11 @@ export default function NewResult({ interpretation, scores }) {
           <Lightbulb className="mt-1 h-5 w-5 shrink-0 text-[#D4A44B]" />
 
           <div className="min-w-0 flex-1">
-            <h3 className="mb-3 text-sm font-bold uppercase tracking-[0.2em] text-[#D4A44B]">
+            <h3 className="mb-3 text-xs font-bold uppercase tracking-[0.15em] text-[#D4A44B] sm:text-[13px] sm:tracking-[0.2em]">
               {suggestion.title}
             </h3>
 
-            <div className="space-y-2 text-sm leading-relaxed text-slate-300">
+            <div className="space-y-2 text-xs leading-relaxed text-slate-300 sm:text-[13px]">
               {suggestion.short.map((item, index) => (
                 <p key={index}>{item}</p>
               ))}
@@ -99,27 +99,33 @@ export default function NewResult({ interpretation, scores }) {
       </div>
 
       <div className="grid gap-6 md:grid-cols-3">
-        <div className="rounded-xl border border-[#1B2A45] bg-[#08111F] p-6">
-          <AlertTriangle className="mb-4 h-6 w-6 text-[#D4A44B]" />
-          <h3 className="mb-4 text-sm font-bold uppercase tracking-[0.2em] text-[#D4A44B]">
-            {quietCost.title}
-          </h3>
+        <div className="rounded-xl border border-[#1B2A45] bg-[#08111F] p-6 text-left">
+          <div className="mb-4 flex items-start gap-3">
+            <AlertTriangle className="mt-0.5 h-6 w-6 shrink-0 text-[#D4A44B]" />
+            <h3 className="text-xs font-bold uppercase tracking-[0.15em] text-[#D4A44B] sm:text-[13px] sm:tracking-[0.2em]">
+              {quietCost.title}
+            </h3>
+          </div>
           <BulletList items={quietCost.points} />
         </div>
 
-        <div className="rounded-xl border border-[#1B2A45] bg-[#08111F] p-6">
-          <Gem className="mb-4 h-6 w-6 text-emerald-400" />
-          <h3 className="mb-4 text-sm font-bold uppercase tracking-[0.2em] text-emerald-400">
-            {hiddenValue.title}
-          </h3>
+        <div className="rounded-xl border border-[#1B2A45] bg-[#08111F] p-6 text-left">
+          <div className="mb-4 flex items-start gap-3">
+            <Gem className="mt-0.5 h-6 w-6 shrink-0 text-emerald-400" />
+            <h3 className="text-xs font-bold uppercase tracking-[0.15em] text-emerald-400 sm:text-[13px] sm:tracking-[0.2em]">
+              {hiddenValue.title}
+            </h3>
+          </div>
           <BulletList items={hiddenValue.points} />
         </div>
 
-        <div className="rounded-xl border border-[#1B2A45] bg-[#08111F] p-6">
-          <Compass className="mb-4 h-6 w-6 text-green-400" />
-          <h3 className="mb-4 text-sm font-bold uppercase tracking-[0.2em] text-green-400">
-            {possibilities.title}
-          </h3>
+        <div className="rounded-xl border border-[#1B2A45] bg-[#08111F] p-6 text-left">
+          <div className="mb-4 flex items-start gap-3">
+            <Compass className="mt-0.5 h-6 w-6 shrink-0 text-green-400" />
+            <h3 className="text-xs font-bold uppercase tracking-[0.15em] text-green-400 sm:text-[13px] sm:tracking-[0.2em]">
+              {possibilities.title}
+            </h3>
+          </div>
           <BulletList items={possibilities.points} />
         </div>
       </div>
@@ -134,11 +140,11 @@ export default function NewResult({ interpretation, scores }) {
 
           <div className="hidden h-20 w-px bg-[#24324B] md:block" />
 
-          <div className="flex-1">
-            <h3 className="mb-3 text-sm font-bold uppercase tracking-[0.2em] text-[#D4A44B]">
+          <div className="min-w-0 flex-1">
+            <h3 className="mb-3 text-xs font-bold uppercase tracking-[0.15em] text-[#D4A44B] sm:text-[13px] sm:tracking-[0.2em]">
               {auditBridge.title}
             </h3>
-            <div className="space-y-2 text-sm leading-relaxed text-slate-300">
+            <div className="space-y-2 text-xs leading-relaxed text-slate-300 sm:text-[13px]">
               {auditBridge.body.map((item, index) => (
                 <p key={index}>{item}</p>
               ))}
@@ -156,12 +162,12 @@ export default function NewResult({ interpretation, scores }) {
             </div>
           </div>
 
-          <div className="flex-1">
-            <h2 className="font-serif text-3xl text-white md:text-4xl">
+          <div className="min-w-0 flex-1">
+            <h2 className="font-serif text-2xl text-white sm:text-3xl">
               Ready to turn these patterns into your next advantage?
             </h2>
 
-            <p className="mt-3 max-w-3xl text-[15px] leading-relaxed text-slate-300">
+            <p className="mt-3 max-w-3xl text-sm leading-relaxed text-slate-300">
               The Professional Leverage Audit™ goes beyond the diagnostic to
               uncover your unique leverage map, evidence bank, and strategic
               direction dossier.
@@ -169,13 +175,15 @@ export default function NewResult({ interpretation, scores }) {
 
             <button
               type="button"
-              className="group !mt-6 !flex !w-full !items-center !justify-center !gap-3 !rounded-md !bg-gradient-to-r !from-[#D9A34A] !to-[#E2B156] !px-6 !py-4 !text-center !text-sm !font-bold !uppercase !tracking-wider !text-[#111827] !transition hover:!brightness-105"
+              className="group !mt-6 !flex !w-full !max-w-full !box-border !items-center !justify-center !gap-2 !overflow-hidden !rounded-md !bg-gradient-to-r !from-[#D9A34A] !to-[#E2B156] !px-3 sm:!px-6 !py-4 !text-center !text-xs sm:!text-sm !font-bold !uppercase !tracking-normal sm:!tracking-wider !leading-relaxed !text-[#111827] !transition hover:!brightness-105"
             >
-              Request Your Professional Leverage Audit™
+              <span className="min-w-0 whitespace-normal break-words [overflow-wrap:anywhere]">
+                Request Your Professional Leverage Audit™
+              </span>
               <ArrowRight className="h-5 w-5 shrink-0 transition-transform group-hover:translate-x-1" />
             </button>
 
-            <div className="mt-5 flex flex-wrap items-center gap-6 text-sm text-slate-400">
+            <div className="mt-5 flex flex-wrap items-center gap-6 text-xs text-slate-400 sm:text-[13px]">
               <div className="flex items-center gap-2">
                 <Calendar className="h-4 w-4 text-[#D4A44B]" />
                 <span>2 deep-dive sessions</span>
