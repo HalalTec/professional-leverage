@@ -18,7 +18,6 @@ const Test = () => {
     const [rel, setRel] = useState([])
     const [fun, setFun] = useState([])
     const [physical, setPhysical] = useState([])
-    const [spirit, setSpirit] = useState([])
     const [message, setMessage] = useState(false)
     const [msg, setMsg] = useState(0)
     const [formCompleted, setFormCompleted] = useState(false)
@@ -89,7 +88,6 @@ const Test = () => {
 
         }
         if (counter === 8) {
-            setSpirit((prev) => [...prev, ans]);
             const scores = {
                 identity_clarity: career[0], value_articulation: money[0],
                 evidence_visibility: health[0], signature_strength_recognition: rel[0],
