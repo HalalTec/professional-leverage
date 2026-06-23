@@ -7,7 +7,7 @@ import {
   ArrowUpRight,
 } from "lucide-react";
 
-export default function FinalStepForm({ onComplete }) {
+export default function FinalStepForm({ onComplete, resultUrl }) {
   useEffect(() => {
     const existingScript = document.querySelector(
       'script[src="https://link.msgsndr.com/js/form_embed.js"]'
@@ -45,7 +45,7 @@ export default function FinalStepForm({ onComplete }) {
   }, [onComplete]);
 
   return (
-    <section className="relative overflow-hidden rounded-xl border border-[#1B2A45] bg-[#050D18] px-6 py-10">
+    <section className="relative overflow-hidden rounded-xl border border-[#1B2A45] bg-[#050D18] px-6 py-10" data-result-url-ready={Boolean(resultUrl)}>
       {/* Background Glow */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(212,164,75,0.06),transparent_60%)]" />
 

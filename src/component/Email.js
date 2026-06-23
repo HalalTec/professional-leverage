@@ -4,6 +4,7 @@ import pako from "pako";
 import { Buffer } from "buffer";
 import Header from "./Header";
 import NewResult from "./NewResult";
+import { decodeResultPayload, getResultPayloadFromUrl } from "../utils/resultPayload";
 
 const CATEGORY_KEY_MAP = {
   "Identity Clarity": "identity_clarity",
@@ -57,6 +58,14 @@ export default function Email() {
 
     const loadInterpretation = async () => {
       try {
+        const payload = getResultPayloadFromUrl(window.location.href);
+        if (payload) {
+          const result = decodeResultPayload(payload);
+          setScores(result.scores);
+          setInterpretation(result.interpretation);
+          return;
+        }
+
         const scores = decodeScoresFromUrl(window.location.href);
         setScores(scores);
         const response = await fetch("/api/interpret", {

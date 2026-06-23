@@ -1,12 +1,14 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Clock3, Info } from "lucide-react";
 import Career from "./Career";
-import Result from "./Result";
 import ResultCard from "./ResultCard";
 import Header from "./Header";
 import FinalStepForm from "./form";
+import { encodeResultPayload } from "../utils/resultPayload";
 
 const Test = () => {
+    const navigate = useNavigate();
     const [counter, setCounter] = useState(1);
     const [p, setP] = useState("Identity Clarity")
     const [career, setCareer] = useState([])
@@ -20,6 +22,28 @@ const Test = () => {
     const [message, setMessage] = useState(false)
     const [msg, setMsg] = useState(0)
     const [formCompleted, setFormCompleted] = useState(false)
+    const [phase, setPhase] = useState("questions")
+    const [generationError, setGenerationError] = useState(null)
+    const [preparedResultUrl, setPreparedResultUrl] = useState("")
+    const [finalScores, setFinalScores] = useState(null)
+
+    const generateResult = async (scores) => {
+        setPhase("generating");
+        setGenerationError(null);
+        try {
+            const response = await fetch("/api/interpret", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ scores }) });
+            const contentType = response.headers.get("content-type") || "";
+            const data = contentType.includes("application/json") ? await response.json() : null;
+            if (!response.ok || !data || data.error) throw new Error(data?.error || "The result could not be generated.");
+            const payload = encodeResultPayload({ scores, interpretation: data });
+            setPreparedResultUrl("/email#r=" + payload);
+            setPhase("form");
+        } catch (error) {
+            console.error("Result generation error:", error);
+            setGenerationError(error.message === "The generated result is too large for a safe URL." ? error.message : "We couldn't calculate your result. Please try again.");
+            setPhase("error");
+        }
+    };
 
     const confirm = (e) => {
         setMsg(Number(e.currentTarget.textContent))
@@ -66,12 +90,20 @@ const Test = () => {
         }
         if (counter === 8) {
             setSpirit((prev) => [...prev, ans]);
+            const scores = {
+                identity_clarity: career[0], value_articulation: money[0],
+                evidence_visibility: health[0], signature_strength_recognition: rel[0],
+                trust_pattern_awareness: per[0], positioning_strength: fun[0],
+                next_move_clarity: physical[0], leverage_utilization: ans,
+            };
+            setFinalScores(scores);
+            generateResult(scores);
         }
 
         close();
     }
 
-    const close = () => {
+    const close = () => 
         setMessage(false)
     }
 
@@ -79,7 +111,7 @@ const Test = () => {
         <div className="diagnostic-page min-h-screen bg-[#0A0A0A] text-white">
 
             <Header />
-            {counter <= 8 && (
+            {phase === "questions" && counter <= 8 && (
                 <main className="px-6 py-10">
                     <div className="max-w-6xl mx-auto border border-[#1f2937] rounded-2xl bg-[#050C17] px-8 md:px-20 py-16">
 
@@ -160,28 +192,36 @@ const Test = () => {
                 </main>
             )}
 
-            {/* Final details form */}
-            {counter > 8 && !formCompleted && (
-                <main className="px-4 py-10 md:px-6">
-                    <div className="max-w-6xl mx-auto">
-                        <FinalStepForm onComplete={() => setFormCompleted(true)} />
+            {phase === "generating" && (
+                <main className="flex min-h-[70vh] items-center justify-center px-6">
+                    <div className="text-center">
+                        <div className="mx-auto mb-6 h-10 w-10 animate-spin rounded-full border-2 border-[#D9A44A] border-t-transparent" />
+                        <p className="text-sm uppercase tracking-widest text-[#D9A44A]">Your result is being calculated</p>
                     </div>
                 </main>
             )}
 
-            {/* Results */}
-            {counter > 8 && formCompleted && (
-                <Result
-                    career={career}
-                    money={money}
-                    per={per}
-                    rel={rel}
-                    fun={fun}
-                    physical={physical}
-                    spirit={spirit}
-                    health={health}
-                />
+            {phase === "error" && (
+                <main className="flex min-h-[70vh] items-center justify-center px-6">
+                    <div className="max-w-lg text-center">
+                        <p className="mb-6 text-red-400">{generationError}</p>
+                        <button type="button" onClick={() => finalScores && generateResult(finalScores)} className="!rounded-lg !bg-[#D4A24A] !px-6 !py-3 !font-semibold !text-black">Try again</button>
+                    </div>
+                </main>
             )}
+
+            {/* Final details form */}
+            {phase === "form" && !formCompleted && (
+                <main className="px-4 py-10 md:px-6">
+                    <div className="max-w-6xl mx-auto">
+                        <FinalStepForm
+                            resultUrl={preparedResultUrl}
+                            onComplete={() => { setFormCompleted(true); navigate(preparedResultUrl); }}
+                        />
+                    </div>
+                </main>
+            )}
+
         </div>
     )
 }
