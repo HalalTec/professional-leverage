@@ -105,7 +105,7 @@ const Test = () => {
 
     const close = () => 
         setMessage(false)
-    }
+
 
     return (
         <div className="diagnostic-page min-h-screen bg-[#0A0A0A] text-white">
