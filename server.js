@@ -80,6 +80,10 @@ function getContentType(filePath) {
 
 function createApiResponse(res) {
   return {
+    setHeader(name, value) {
+      res.setHeader(name, value);
+      return this;
+    },
     status(statusCode) {
       res.statusCode = statusCode;
       return this;

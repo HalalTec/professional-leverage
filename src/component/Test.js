@@ -27,18 +27,31 @@ const Test = () => {
     const [finalScores, setFinalScores] = useState(null)
 
     const generateResult = async (scores) => {
+        const requestStartedAt = performance.now();
         setPhase("generating");
         setGenerationError(null);
         try {
             const response = await fetch("/api/interpret", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ scores }) });
+            const responseReceivedAt = performance.now();
             const contentType = response.headers.get("content-type") || "";
             const data = contentType.includes("application/json") ? await response.json() : null;
             if (!response.ok || !data || data.error) throw new Error(data?.error || "The result could not be generated.");
             const payload = encodeResultPayload({ scores, interpretation: data });
+            const resultReadyAt = performance.now();
+            console.info("[interpret:client-timing]", {
+                requestId: response.headers.get("x-interpret-request-id"),
+                serverTiming: response.headers.get("server-timing"),
+                fetchMs: Math.round(responseReceivedAt - requestStartedAt),
+                processingMs: Math.round(resultReadyAt - responseReceivedAt),
+                totalMs: Math.round(resultReadyAt - requestStartedAt),
+            });
             setPreparedResultUrl("/email#r=" + payload);
             setPhase("form");
         } catch (error) {
-            console.error("Result generation error:", error);
+            console.error("Result generation error:", {
+                error,
+                totalMs: Math.round(performance.now() - requestStartedAt),
+            });
             setGenerationError(error.message === "The generated result is too large for a safe URL." ? error.message : "We couldn't calculate your result. Please try again.");
             setPhase("error");
         }

@@ -338,6 +338,8 @@ function extractOutputText(response) {
 }
 
 module.exports = async function handler(req, res) {
+  const requestStartedAt = Date.now();
+
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
   }
@@ -351,8 +353,11 @@ module.exports = async function handler(req, res) {
   }
 
   try {
+    const requestedModel = process.env.OPENAI_MODEL || "gpt-5";
+    const openaiStartedAt = Date.now();
     const response = await client.responses.create({
-      model: process.env.OPENAI_MODEL || "gpt-5",
+      model: requestedModel,
+      reasoning: { effort: "minimal" },
       instructions: SYSTEM_PROMPT,
       input: [
         {
@@ -364,6 +369,7 @@ module.exports = async function handler(req, res) {
         format: RESPONSE_FORMAT,
       },
     });
+    const openaiMs = Date.now() - openaiStartedAt;
 
     const output = extractOutputText(response);
 
@@ -371,9 +377,42 @@ module.exports = async function handler(req, res) {
       throw new Error("No output returned");
     }
 
-    return res.status(200).json(JSON.parse(output));
+    const parseStartedAt = Date.now();
+    const interpretation = JSON.parse(output);
+    const parseMs = Date.now() - parseStartedAt;
+    const totalMs = Date.now() - requestStartedAt;
+    const requestId = response._request_id || response.id || "unknown";
+    const usage = response.usage || {};
+
+    res.setHeader?.(
+      "Server-Timing",
+      `openai;dur=${openaiMs}, parse;dur=${parseMs}, total;dur=${totalMs}`
+    );
+    res.setHeader?.("X-Interpret-Request-Id", requestId);
+
+    console.info(
+      "[interpret:timing]",
+      JSON.stringify({
+        requestId,
+        model: response.model || requestedModel,
+        totalMs,
+        openaiMs,
+        parseMs,
+        inputTokens: usage.input_tokens,
+        cachedInputTokens: usage.input_tokens_details?.cached_tokens,
+        outputTokens: usage.output_tokens,
+        reasoningTokens: usage.output_tokens_details?.reasoning_tokens,
+        totalTokens: usage.total_tokens,
+      })
+    );
+
+    return res.status(200).json(interpretation);
   } catch (error) {
-    console.error("OpenAI API error:", error);
+    console.error("OpenAI API error:", {
+      message: error.message,
+      requestId: error.request_id,
+      totalMs: Date.now() - requestStartedAt,
+    });
 
     return res.status(500).json({
       error: "Failed to generate interpretation",
