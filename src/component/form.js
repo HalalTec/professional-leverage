@@ -8,6 +8,14 @@ import {
 } from "lucide-react";
 
 export default function FinalStepForm({ onComplete, resultUrl }) {
+  const formUrl = new URL(
+    "https://link.msgsndr.com/widget/form/7NRMz5kJUIxJuRh7ToGv"
+  );
+
+  if (resultUrl) {
+    const fullResultUrl = new URL(resultUrl, window.location.origin).toString();
+    formUrl.searchParams.set("wheelurl", fullResultUrl);
+  }
   useEffect(() => {
     const existingScript = document.querySelector(
       'script[src="https://link.msgsndr.com/js/form_embed.js"]'
@@ -126,7 +134,7 @@ export default function FinalStepForm({ onComplete, resultUrl }) {
         {/* Embedded Form */}
         <div className="mt-10 overflow-hidden rounded-lg border border-[#22324A] bg-[#0B1320]">
           <iframe
-            src="https://link.msgsndr.com/widget/form/7NRMz5kJUIxJuRh7ToGv"
+            src={formUrl.toString()}
             sandbox="allow-forms allow-scripts allow-same-origin allow-popups"
             id="inline-7NRMz5kJUIxJuRh7ToGv"
             title="PLA Wheel Pre-Result Form"
