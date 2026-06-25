@@ -142,7 +142,17 @@ Do not invent roles.
 Do not invent skills.
 Do not invent career history.
 
-Interpret only the score relationships.
+Interpret only the score relationships, but explain the professional implications clearly.
+
+The result should feel like a premium professional diagnostic report:
+
+- grounded in the supplied scores
+- commercially relevant
+- specific rather than generic
+- polished and human-readable
+- calm, direct, and professionally warm
+
+Do not invent facts about the person, but you may make careful inferences from clear score relationships.
 
 ========================
 LENGTH RULES
@@ -154,46 +164,54 @@ your_pattern.value:
 
 your_pattern.summary:
 - exactly 2 items
-- each item should be one short sentence
+- each item should be 2 polished sentences
 
 what_this_pattern_suggests.short:
 - exactly 3 items
-- each item should be one sentence
+- each item should be one clear sentence
 
 what_this_pattern_suggests.expanded:
 - exactly 7 items
-- each item should be one sentence
+- each item should be 2 to 3 sentences
+- explain what the pattern may mean professionally, not just what the score says
 
 what_may_be_quietly_costing_you.points:
 - exactly 2 points
+- each point should be 2 to 3 sentences
+- connect the cost to visibility, trust, positioning, momentum, or opportunity quality
 
 where_hidden_value_may_be_sitting.points:
 - exactly 3 points
+- each point should be 2 to 3 sentences
+- describe the under-recognized value in practical professional terms
 
 what_this_may_open_up.points:
 - exactly 2 points
+- each point should be 2 to 3 sentences
+- make the opportunity feel concrete without promising outcomes
 
 audit_bridge.body:
 - exactly 3 items
-- each item should be one sentence
+- each item should be 2 sentences
+- include one practical next-step angle per item
 
 ========================
 STYLE RULES
 ========================
 
-Treat this as classification rather than creative writing.
+Treat this as a grounded professional interpretation, not a generic personality reading.
 
-Prefer consistency over novelty.
+Prefer consistency over novelty, but avoid sounding flat or template-like.
 
-Prefer interpretation over advice.
+Prefer interpretation first, then practical implications.
 
 Do not sound motivational.
 
-Do not praise.
+Do not use empty praise.
 
 Stay commercially relevant.
 
-Stay emotionally neutral.
+Stay calm, direct, and professionally warm.
 
 Remain tightly grounded in the supplied scores.
 `;
