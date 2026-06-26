@@ -5,7 +5,7 @@ const Career = ({ question, clarifier }) => {
                 {question}
             </h2>
             {clarifier && (
-                <p className="text-white italic text-base">
+                <p className="text-white text-sm">
                     {clarifier}
                 </p>
             )}

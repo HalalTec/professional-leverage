@@ -74,16 +74,24 @@ export default function ResultCard({ category, score, onAdjust, onConfirm }) {
             </ul>
           </div>
         </div>
-        <div className="border-t border-[#1E293B] my-8" />
-        <div className="grid md:grid-cols-2 gap-4">
-         <button type="button" onClick={onAdjust}
-  className="!border !border-[#D4A24A] !bg-transparent !text-[#D4A24A] !h-14 !px-6 !rounded-md !font-medium !flex !items-center !justify-center hover:!bg-[#D4A24A]/10 !transition"
+        <div className="flex flex-col md:flex-row gap-4 justify-center mt-6 w-full">
+  <button
+  type="button"
+  onClick={onAdjust}
+  className="!w-full md:!max-w-[200px] md:!flex-1 !h-11 !border !border-[#D4A24A] !bg-transparent !text-[#D4A24A] !rounded-md !text-sm !font-medium !flex !items-center !justify-center hover:!bg-[#D4A24A]/10 !transition"
 >
   Adjust Score
 </button>
-          <button type="button" onClick={onConfirm} className="!bg-[#D4A24A] !text-black !py-4 !rounded-md !font-medium !flex !items-center !justify-center !gap-2 hover:!bg-[#C99635] !transition">Feels Accurate <ArrowRight size={18} /></button>
-        </div>
-      </div>
+
+<button
+  type="button"
+  onClick={onConfirm}
+  className="!w-full md:!max-w-[200px] md:!flex-1 !h-11 !bg-[#D4A24A] !text-black !rounded-md !text-sm !font-medium !flex !items-center !justify-center !gap-1 hover:!bg-[#C99635] !transition"
+>
+  Feels Accurate <ArrowRight size={16} />
+</button>
+</div>
+</div>
       <div className="flex items-center justify-center gap-2 mt-6 text-gray-400 text-sm">
         <ShieldCheck size={16} className="text-[#D4A24A]" /><span>Your results are for your eyes only.</span>
       </div>

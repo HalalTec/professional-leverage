@@ -123,12 +123,12 @@ const Test = () => {
 
             <Header />
             {phase === "questions" && counter <= 8 && (
-                <main className="px-6 py-10">
-                    <div className="max-w-6xl mx-auto border border-[#1f2937] rounded-2xl bg-[#050C17] px-8 md:px-20 py-16">
+                <main className="diagnostic-quiz-main px-6 py-10">
+                    <div className="diagnostic-quiz-card max-w-6xl mx-auto border border-[#1f2937] rounded-2xl bg-[#050C17] px-8 md:px-20 py-16">
 
                         {/* Progress */}
-                        <div className="max-w-3xl mx-auto">
-                            <div className="text-center text-[#D4A24A] text-xl mb-4">
+                        <div className="diagnostic-progress w-full max-w-2xl md:max-w-4xl mx-auto">
+                            <div className="diagnostic-progress-label text-center text-[#D4A24A] text-xl mb-4">
                                 Question {counter} of 8
                             </div>
                             <div className="h-2 bg-[#1f2937] rounded-full overflow-hidden">
@@ -137,21 +137,21 @@ const Test = () => {
                                     style={{ width: `${((counter - 1) / 8) * 100}%` }}
                                 />
                             </div>
-                            <div className="flex justify-center items-center gap-2 text-gray-400 mt-6">
+                            <div className="diagnostic-time flex justify-center items-center gap-2 text-gray-400 mt-6">
                                 <Clock3 size={18} />
                                 <span>Takes ~5 minutes</span>
                             </div>
                         </div>
 
                         {/* Category */}
-                        <div className="text-center mt-16">
+                        <div className="diagnostic-category text-center mt-16">
                             <span className="uppercase tracking-[0.25em] text-[#D4A24A] text-sm font-semibold">
                                 {p}
                             </span>
                         </div>
 
                         {/* Question */}
-                        <div className="max-w-4xl mx-auto text-center mt-6">
+                        <div className="diagnostic-question max-w-4xl mx-auto text-center mt-6">
                             {counter === 1 && <Career question="Can you clearly define who you are professionally beyond your title?" clarifier="Most professionals can explain what they've done. Far fewer can explain the deeper pattern underneath it." />}
                             {counter === 2 && <Career question="Can you clearly explain the value you create?" clarifier="If your value takes too long to understand, it often gets underestimated." />}
                             {counter === 3 && <Career question="Have you properly extracted the proof of your value from your career?" clarifier="Wins, trust, and outcomes are not just memories. They are evidence." />}
@@ -163,7 +163,7 @@ const Test = () => {
                         </div>
 
                         {/* Note */}
-                        <div className="flex justify-center mt-10">
+                        <div className="diagnostic-note !flex !visible justify-center mt-10 !opacity-100">
                             <div className="flex items-center gap-2 text-gray-500">
                                 <Info size={16} />
                                 <span>There are no right answers. Go with what feels most true right now.</span>
@@ -171,8 +171,8 @@ const Test = () => {
                         </div>
 
                         {/* Score grid */}
-                        <div className="max-w-5xl mx-auto mt-14">
-                            <div className="grid grid-cols-5 md:grid-cols-10 gap-3">
+                        <div className="diagnostic-score-area max-w-5xl mx-auto mt-14">
+                            <div className="diagnostic-score-grid grid grid-cols-5 md:grid-cols-10 gap-3">
                                 {[1,2,3,4,5,6,7,8,9,10].map(n => (
                                     <button
                                         key={n}
@@ -189,14 +189,16 @@ const Test = () => {
                             </div>
 
 
-                            {message && (
-                                <ResultCard
-                                    category={p}
-                                    score={msg}
-                                    onAdjust={close}
-                                    onConfirm={() => submit(msg)}
-                                />
-                            )}
+                            <div className="diagnostic-feedback-slot">
+                                {message && (
+                                    <ResultCard
+                                        category={p}
+                                        score={msg}
+                                        onAdjust={close}
+                                        onConfirm={() => submit(msg)}
+                                    />
+                                )}
+                            </div>
                         </div>
 
                     </div>
