@@ -606,7 +606,6 @@ tr td+td{
 @media (min-width: 1024px) {
   .diagnostic-page .diagnostic-quiz-main {
     height: calc(100vh - 88px);
-    overflow: hidden;
     padding-top: 12px !important;
     padding-bottom: 12px !important;
   }
@@ -614,7 +613,6 @@ tr td+td{
   .diagnostic-page .diagnostic-quiz-card {
     width: min(100%, 1120px);
     max-height: 100%;
-    overflow: hidden;
     padding: 24px 56px 18px !important;
     display: flex;
     flex-direction: column;
