@@ -140,6 +140,7 @@ export default function Email() {
       {interpretation && scores && (
         <NewResult interpretation={interpretation} scores={scores} />
       )}
+
     </div>
   );
 }

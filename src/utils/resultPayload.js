@@ -23,7 +23,6 @@ const packInterpretation = (i) => [
   [i.what_may_be_quietly_costing_you.title, i.what_may_be_quietly_costing_you.points],
   [i.where_hidden_value_may_be_sitting.title, i.where_hidden_value_may_be_sitting.points],
   [i.what_this_may_open_up.title, i.what_this_may_open_up.points],
-  [i.audit_bridge.title, i.audit_bridge.body],
 ];
 
 const unpackInterpretation = (p) => ({
@@ -32,7 +31,6 @@ const unpackInterpretation = (p) => ({
   what_may_be_quietly_costing_you: { title: p[2][0], points: p[2][1] },
   where_hidden_value_may_be_sitting: { title: p[3][0], points: p[3][1] },
   what_this_may_open_up: { title: p[4][0], points: p[4][1] },
-  audit_bridge: { title: p[5][0], body: p[5][1] },
 });
 
 const assertValidScores = (scores) => {

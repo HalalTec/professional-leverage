@@ -33,9 +33,10 @@ export default function NewResult({ interpretation, scores }) {
     what_may_be_quietly_costing_you: quietCost,
     where_hidden_value_may_be_sitting: hiddenValue,
     what_this_may_open_up: possibilities,
-    audit_bridge: auditBridge,
   } = interpretation;
 
+
+  
   return (
     <section className="mx-auto max-w-6xl space-y-8 px-6 py-10">
       <div className="rounded-2xl border border-[#1B2A45] bg-[#08111F] px-6 py-10 text-center shadow-[0_0_40px_rgba(0,0,0,0.4)] md:px-8">
@@ -142,12 +143,12 @@ export default function NewResult({ interpretation, scores }) {
 
           <div className="min-w-0 flex-1">
             <h3 className="mb-3 text-xs font-bold uppercase tracking-[0.15em] text-[#D4A44B] sm:text-[13px] sm:tracking-[0.2em]">
-              {auditBridge.title}
+              What This Still Doesn’t Explain
             </h3>
             <div className="space-y-2 text-xs leading-relaxed text-slate-300 sm:text-[13px]">
-              {auditBridge.body.map((item, index) => (
-                <p key={index}>{item}</p>
-              ))}
+              These scores can show the pattern, but not the deeper story behind it.
+              Your work history — the choices you made, the wins you earned, the trust you built, and the patterns that kept showing up — often hold the clearest clues to your real strengths, missed opportunities, and strongest next move.
+              That is what the Professional Leverage Audit™ is built to uncover.
             </div>
           </div>
         </div>

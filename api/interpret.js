@@ -4,7 +4,6 @@ const client = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
-// Keys expected from incoming user scores request
 const REQUIRED_SCORE_KEYS = [
   "identity_clarity",
   "value_articulation",
@@ -18,10 +17,8 @@ const REQUIRED_SCORE_KEYS = [
 
 /**
  * DETERMINISTIC DIAGNOSTIC ENGINE
- * Runs locally to determine patterns, stripping heavy computation load away from the LLM.
  */
 function computeDiagnostic(rawScores) {
-  // Map incoming schema names to internal shorthand names
   const scores = {
     identity: parseFloat(rawScores.identity_clarity),
     value: parseFloat(rawScores.value_articulation),
@@ -82,19 +79,16 @@ function computeDiagnostic(rawScores) {
     return 0;
   };
 
-  // Top Assets
   const topAssets = [...keys].sort((a, b) => {
     if (scores[a] === scores[b]) return highTieBreakOrder[a] - highTieBreakOrder[b];
     return scores[b] - scores[a];
   }).slice(0, 3);
 
-  // Weakest Areas
   const weakestAreas = [...keys].sort((a, b) => {
     if (scores[a] === scores[b]) return lowTieBreakOrder[a] - lowTieBreakOrder[b];
     return scores[a] - scores[b];
   }).slice(0, 3);
 
-  // Contradiction Matrix
   const contradictionScores = pairs.map(pair => {
     const gap = Math.abs(scores[pair.a] - scores[pair.b]);
     const weight = getBandWeight(getBand(scores[pair.a]), getBand(scores[pair.b]));
@@ -111,7 +105,6 @@ function computeDiagnostic(rawScores) {
   const secondaryContradiction = contradictionScores[1].key;
   const patternFamily = patternMap[dominantContradiction];
 
-  // Structural Macro State Clusters
   const stateGroups = {
     clarity: ['identity', 'value', 'strengths', 'next_move'],
     visibility: ['trust', 'positioning'],
@@ -138,49 +131,45 @@ function computeDiagnostic(rawScores) {
   };
 }
 
+// PROMPT UPDATED AND CONTEXT ALIGNED WITH PREVIOUS ARRAY EXPECTATIONS
 const SYSTEM_PROMPT = `
 You are a professional leverage pattern interpreter.
 
 This is NOT coaching, therapy, or personality analysis.
-Your job is to interpret professional leverage patterns from a precomputed structural diagnostic.
+
+Your job is to interpret work patterns from a Professional Leverage Blind Spot Diagnostic.
 
 IMPORTANT:
-The structural analysis has already been computed.
+The structural analysis is already computed.
+
 Do NOT recalculate:
-- top assets
-- weakest areas
-- contradictions
-- pattern family
-- systemic tension
+- top_assets
+- weakest_areas
+- dominant_contradiction
+- secondary_contradiction
+- pattern_family
+- systemic_tension
 
-Treat them as fixed. Use the raw scores only for nuance.
+Treat computed_pattern as fixed.
 
-Your job is to interpret:
-- leverage blind spots
-- positioning gaps
-- identity gaps
-- hidden value zones
-- strategic friction
-- under-recognized strengths
+Use scores only for nuance.
 
-Your outputs must be: precise, sharp, bounded, deterministic, and commercially relevant.
-Do NOT invent career specifics, infer industries/roles, advise, prescribe, or coach. Interpret only.
+Do NOT:
+- invent career details
+- infer industries, roles, or skills
+- advise
+- prescribe
+- coach
+- praise
+
+Only interpret.
 
 ====================
-INPUT CONTRACT
+INPUT
 ====================
-You will receive:
+
 {
-  "scores": {
-    "identity_clarity": X,
-    "value_articulation": X,
-    "evidence_visibility": X,
-    "signature_strength_recognition": X,
-    "trust_pattern_awareness": X,
-    "positioning_strength": X,
-    "next_move_clarity": X,
-    "leverage_utilization": X
-  },
+  "scores": {...},
   "computed_pattern": {
     "top_assets": [],
     "weakest_areas": [],
@@ -191,56 +180,171 @@ You will receive:
   }
 }
 
-computed_pattern is authoritative. Use it as the structural truth. Scores provide nuance only.
+computed_pattern is the structural truth.
+
+====================
+LANGUAGE RULES
+====================
+
+Write in simple Grade 4–6 English.
+
+Use:
+- short sentences
+- plain words
+- easy ideas
+
+Avoid:
+- abstract business jargon
+- vague phrases
+- consultant language
+
+If a sentence feels hard to read in one pass, simplify it.
 
 ====================
 DEPTH RULES
 ====================
-All sections must interpret relationships, not summarize scores.
-Translate patterns into tension, friction, leverage gaps, proof gaps, identity gaps, trust gaps, positioning distortion, or hidden value.
 
-Do NOT restate raw scores.
-Bad: "Positioning is high and evidence is low."
-Good: "The external story appears stronger than the proof beneath it."
+Do not restate scores.
 
-Each section must add new interpretive value. Do NOT repeat the same insight across sections. Each section must go deeper.
+Do not stop at:
+X > Y
+
+Always explain:
+X > Y → what this likely causes
+
+Weak:
+"Value is stronger than proof."
+
+Better:
+"You may explain your value well, but without enough proof, people may trust it slower."
+
+Weak:
+"Strengths are strong but use is low."
+
+Better:
+"Your best strengths may be doing less work for you than they should."
+
+Every important point must answer:
+"So what?"
+
+Make consequences concrete and easy to picture.
+
+Avoid vague phrases like:
+- untapped potential
+- credibility gaps
+- hidden upside
+- friction
 
 ====================
-SECTION ROLES & LENGTH RULES
+SECTION ROLES
 ====================
-your_pattern.value:
-- Compress dominant contradiction + pattern family.
-- 2–5 words.
 
-your_pattern.summary:
-- Array containing exactly 2 strings. Each string is a brief baseline observation summary.
+Pattern Name:
+Short label for the main pattern.
 
-what_this_pattern_suggests.short:
-- Array containing exactly 3 strings. Each string must be a single complete sentence stating the core tension. Max 70 words total across all 3 strings.
+Short:
+State the core pattern.
 
-what_this_pattern_suggests.expanded:
-- Array containing exactly 7 strings. Each string must be a single complete sentence explaining internal mechanics. Max 22 words per string. Max 160 words total.
-- At least 4 strings must explicitly connect two categories.
-- At least 3 strings must describe structural tension/mismatch.
-- At least 1 string must pinpoint the dominant contradiction.
-- Preferred verbs: outpaces, lags behind, sits ahead of, is undercut by, is not matched by, creates friction with, is not yet backed by, compounds slower than.
+Expanded:
+Explain what the pattern means, what it may cause, and what may be blocked.
 
-what_may_be_quietly_costing_you.points:
-- Array containing exactly 2 strings revealing practical friction.
-- 8–18 words per string.
+Quiet Costs:
+What this pattern may quietly take away.
 
-where_hidden_value_may_be_sitting.points:
-- Array containing exactly 3 strings revealing trapped unrealized leverage.
-- 8–18 words per string.
+Hidden Value:
+Where value may be sitting but not fully used.
 
-what_this_may_open_up.points:
-- Array containing exactly 2 strings outlining structural clarity outcomes.
-- 10–20 words per string.
+Open Up:
+What may become possible if the pattern becomes clearer.
+
+====================
+EXPANDED RULES
+====================
+
+Expanded must explain meaning, not just comparison.
+
+Each sentence must do at least one:
+- explain what a gap may cause
+- explain what a mismatch may look like at work
+- explain what may be blocked, slowed, hidden, or weakened
+
+BANNED:
+- score summaries
+- one-category summaries
+- pure comparisons with no consequence
+
+REQUIRED:
+- at least 4 sentences connect two categories
+- at least 4 sentences explain a clear consequence
+- at least 1 sentence explains the main contradiction simply
 
 ====================
 OUTPUT FORMAT
 ====================
-Return ONLY valid JSON matching this layout. Do not return prose or markdown wrapper blocks outside of the JSON payload object.
+
+Return ONLY valid JSON matching this schema setup:
+
+{
+  "your_pattern": {
+    "title": "Your Pattern",
+    "value": "",
+    "summary": [
+      "Brief baseline summary sentence one.",
+      "Brief baseline summary sentence two."
+    ]
+  },
+  "what_this_pattern_suggests": {
+    "title": "What This Pattern Suggests",
+    "short": [],
+    "expanded": []
+  },
+  "what_may_be_quietly_costing_you": {
+    "title": "What May Be Quietly Costing You",
+    "points": []
+  },
+  "where_hidden_value_may_be_sitting": {
+    "title": "Where Hidden Value May Be Sitting",
+    "points": []
+  },
+  "what_this_may_open_up": {
+    "title": "What This May Open Up",
+    "points": []
+  },
+}
+
+No markdown wrappers.
+No extra prose.
+
+====================
+LENGTH
+====================
+
+your_pattern.value
+2–5 words
+
+your_pattern.summary
+exactly 2 items in the array
+
+short
+2–3 sentences (items in the array)
+max 70 words total
+
+expanded
+6–8 sentences (items in the array)
+max 22 words each string
+max 160 words total
+
+quiet_costs
+exactly 2 points
+8–18 words each
+
+hidden_value
+exactly 2–3 points
+8–18 words each
+
+open_up
+exactly 2 points
+10–20 words each
 `;
 
 const RESPONSE_FORMAT = {
@@ -274,14 +378,14 @@ const RESPONSE_FORMAT = {
           short: {
             type: "array",
             items: { type: "string" },
-            minItems: 3,
+            minItems: 2,
             maxItems: 3,
           },
           expanded: {
             type: "array",
             items: { type: "string" },
-            minItems: 7,
-            maxItems: 7,
+            minItems: 6,
+            maxItems: 8,
           },
         },
         required: ["title", "short", "expanded"],
@@ -308,7 +412,7 @@ const RESPONSE_FORMAT = {
           points: {
             type: "array",
             items: { type: "string" },
-            minItems: 3,
+            minItems: 2,
             maxItems: 3,
           },
         },
@@ -328,20 +432,6 @@ const RESPONSE_FORMAT = {
         },
         required: ["title", "points"],
       },
-      audit_bridge: {
-        type: "object",
-        additionalProperties: false,
-        properties: {
-          title: { type: "string" },
-          body: {
-            type: "array",
-            items: { type: "string" },
-            minItems: 3,
-            maxItems: 3,
-          },
-        },
-        required: ["title", "body"],
-      },
     },
     required: [
       "your_pattern",
@@ -349,7 +439,6 @@ const RESPONSE_FORMAT = {
       "what_may_be_quietly_costing_you",
       "where_hidden_value_may_be_sitting",
       "what_this_may_open_up",
-      "audit_bridge",
     ],
   },
 };
@@ -365,7 +454,6 @@ function validateScores(scores) {
 }
 
 function extractOutputText(response) {
-  // Gracefully handle Standard Completions or Structured Outputs architecture payloads
   if (response.choices?.[0]?.message?.content) {
     return response.choices[0].message.content;
   }
@@ -395,10 +483,8 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    // 1. Run local diagnostic compute engine to offload logic from the AI
     const computedPattern = computeDiagnostic(scores);
 
-    // 2. Assemble streamlined context wrapper contract matching the system blueprint instructions
     const aiPayloadInput = {
       scores: scores,
       computed_pattern: computedPattern
@@ -407,22 +493,21 @@ module.exports = async function handler(req, res) {
     const requestedModel = process.env.OPENAI_MODEL || "gpt-4o";
     const openaiStartedAt = Date.now();
 
-    // 3. Initiate Chat Completion request targeting structured JSON constraints
     const response = await client.chat.completions.create({
-    model: requestedModel,
-    messages: [
-      { role: "system", content: SYSTEM_PROMPT },
-      { role: "user", content: JSON.stringify(aiPayloadInput) }
-    ],
-    response_format: {
-      type: "json_schema",
-      json_schema: {
-        name: RESPONSE_FORMAT.name,
-        strict: RESPONSE_FORMAT.strict,
-        schema: RESPONSE_FORMAT.schema
-      }
-    },
-  });
+      model: requestedModel,
+      messages: [
+        { role: "system", content: SYSTEM_PROMPT },
+        { role: "user", content: JSON.stringify(aiPayloadInput) }
+      ],
+      response_format: {
+        type: "json_schema",
+        json_schema: {
+          name: RESPONSE_FORMAT.name,
+          strict: RESPONSE_FORMAT.strict,
+          schema: RESPONSE_FORMAT.schema
+        }
+      },
+    });
     
     const openaiMs = Date.now() - openaiStartedAt;
     const output = extractOutputText(response);
@@ -437,12 +522,6 @@ module.exports = async function handler(req, res) {
     const totalMs = Date.now() - requestStartedAt;
     const requestId = response.id || "unknown";
     const usage = response.usage || {};
-
-    res.setHeader?.(
-      "Server-Timing",
-      `openai;dur=${openaiMs}, parse;dur=${parseMs}, total;dur=${totalMs}`
-    );
-    res.setHeader?.("X-Interpret-Request-Id", requestId);
 
     console.info(
       "[interpret:timing]",
