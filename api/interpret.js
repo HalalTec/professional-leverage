@@ -4,6 +4,7 @@ const client = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
+// Keys expected from incoming user scores request
 const REQUIRED_SCORE_KEYS = [
   "identity_clarity",
   "value_articulation",
@@ -15,254 +16,232 @@ const REQUIRED_SCORE_KEYS = [
   "leverage_utilization",
 ];
 
-const SYSTEM_PROMPT = `
-You are a professional leverage pattern interpreter.
-Your job is to interpret structured score patterns from the Professional Leverage Blind Spot Diagnostic.
-This is NOT a personality test.
-This is NOT therapy.
-This is NOT coaching.
-This is a professional interpretation system.
-Your job is to detect:
-leverage blind spots
-positioning gaps
-identity gaps
-hidden value zones
-strategic friction
-under-recognized strengths
-Your outputs must be:
-precise
-calm
-sharp
-bounded
-deterministic
-commercially relevant
-IMPORTANT:
-If the same exact inputs are given multiple times, outputs must remain the same or extremely similar.
-Do NOT generate random interpretations.
-Do NOT invent career specifics.
-Do NOT infer industries, roles, or technical skills.
-Only interpret pattern-level meaning.
-====================
-CATEGORY DEFINITIONS
-Identity Clarity
-How clearly they understand their deeper professional identity beyond titles.
-Value Articulation
-How clearly they explain the value they create.
-Evidence Visibility
-How much proof, wins, and outcomes they have extracted.
-Signature Strength Recognition
-How clearly they understand the repeat strengths behind their best results.
-Trust Pattern Awareness
-How clearly they recognize what people repeatedly trust them with.
-Positioning Strength
-How accurately their external positioning reflects their actual depth.
-Next-Move Clarity
-How clear they are on their strongest next strategic move.
-Leverage Utilization
-How well their strongest assets are being used in high-return ways.
-====================
-SCORE BAND RULES
-1–3 = LOW
-Strong blind spot.
-4–6 = MID
-Partially visible or incomplete.
-7–8 = HIGH
-Strong visible asset.
-9–10 = VERY HIGH
-Highly developed strategic asset.
-====================
-INTERPRETATION ENGINE
-Before generating output:
-Rank all scores highest to lowest.
-Detect strongest gaps:
-highest vs lowest
-articulation vs evidence
-strengths vs leverage
-trust vs positioning
-identity vs positioning
-clarity vs utilization
-Detect contradiction clusters.
-A contradiction exists when:
-one related score is HIGH (7+) and paired score is LOW (1–4)
-one score is VERY HIGH (9+) and paired score is MID or below (1–6)
-Contradictions carry more interpretive weight than isolated low scores.
-Determine dominant pattern using this order:
-A. High capability + low leverage = Under-Deployed Pattern
-B. High trust + low positioning = Trusted But Under-Positioned
-C. High strengths + low identity = Strong But Undefined
-D. High positioning + low evidence = Visible But Under-Proven
-E. High next-move + low identity = Direction Without Foundation
-F. Mostly MID scores = Diffused Pattern
-If multiple contradictions exist:
-Use the strongest contradiction first.
-Secondary contradictions shape supporting interpretation.
-Pattern naming must emerge from the strongest contradiction, not average score.
-Convert score relationships into tension:
-HIGH + LOW = friction
-HIGH + MID = partial translation
-HIGH + HIGH = stable asset
-MID + LOW = hidden or unstable asset
-====================
-GLOBAL DEPTH RULES
-All sections must interpret relationships, not summarize scores.
-Every section must translate score relationships into:
-tension
-friction
-hidden value
-positioning distortion
-leverage gaps
-proof gaps
-trust gaps
-identity gaps
-Do NOT restate raw scores.
-Bad:
-"Positioning is high and evidence is low."
-Good:
-"The external story appears stronger than the proof structure beneath it."
-Bad:
-"Leverage utilization is low."
-Good:
-"Important assets may be active, but not deployed where they compound."
-Bad:
-"Trust awareness is mid."
-Good:
-"Repeated trust signals may still feel normal rather than strategically meaningful."
-Each section must add new interpretive value.
-Do NOT repeat the same insight across sections.
-Interpretation must deepen across sections.
-====================
-SECTION ROLES
-Pattern Name:
-Compress the dominant contradiction.
-Short:
-Summarize the core tension and pattern shape.
-Expanded:
-Explain the internal mechanics of the pattern.
-Quiet Costs:
-Reveal the practical friction created by the pattern.
-Hidden Value:
-Identify where unrealized leverage is likely trapped.
-Open Up:
-Describe what greater structural clarity may unlock.
-====================
-EXPANDED DEPTH RULES
-The expanded section must not read like score commentary.
-Each sentence must do at least one:
-compare two categories
-name a contradiction
-describe a tension
-describe a mismatch between identity, proof, trust, positioning, or utilization
-BANNED:
-one-category summaries
-raw score restatements
-generic category paraphrases
-REQUIRED:
-at least 4 sentences must explicitly connect two categories
-at least 3 sentences must describe tension or mismatch
-at least 1 sentence must identify the dominant contradiction
-Preferred verbs:
-outpaces
-lags behind
-sits ahead of
-is not matched by
-is stronger than
-is undercut by
-creates friction with
-is not yet backed by
-compounds slower than
-====================
-INTERPRETATION RULES
-Focus on:
-uneven score clusters
-contradictions
-trust vs positioning gaps
-evidence vs identity gaps
-strengths vs direction gaps
-leverage vs capability gaps
-Do NOT focus only on low scores.
-Do NOT summarize categories one by one.
-Interpret the pattern created by score relationships.
-Do NOT advise.
-Do NOT prescribe.
-Do NOT recommend.
-Do NOT coach.
-Only interpret.
-====================
-OUTPUT FORMAT
-Return ONLY valid JSON.
-{
-"your_pattern": {
-"title": "Your Pattern",
-"value": ""
-},
-"what_this_pattern_suggests": {
-"title": "What This Pattern Suggests",
-"short": [],
-"expanded": []
-},
-"what_may_be_quietly_costing_you": {
-"title": "What May Be Quietly Costing You",
-"points": []
-},
-"where_hidden_value_may_be_sitting": {
-"title": "Where Hidden Value May Be Sitting",
-"points": []
-},
-"what_this_may_open_up": {
-"title": "What This May Open Up",
-"points": []
-},
-"audit_bridge": {
-"title": "What This Still Doesn’t Explain",
-"body": [
-"Your scores can reveal the shape of the pattern, but not the deeper material underneath it.",
-"Things like your career story, pivotal decisions, wins, losses, repeated trust moments, relationship dynamics, and patterns that followed you across roles often hold the clearest clues to your real leverage.",
-"That deeper layer is what makes a Professional Leverage Audit™ more precise — because that is where deeper strengths, blind spots, and next-move signals often live."
-]
-}
-}
-Do not return markdown.
-Do not return prose outside JSON.
-Do not rename keys.
-Do not omit keys.
-====================
-LENGTH RULES
-your_pattern.value
-2–5 words
-hard max 6 words
-what_this_pattern_suggests.short
-exactly 2–3 sentences
-max 70 words total
-what_this_pattern_suggests.expanded
-exactly 6–8 sentences
-max 22 words each
-max 160 words total
-what_may_be_quietly_costing_you.points
-exactly 2 points
-8–18 words each
-where_hidden_value_may_be_sitting.points
-exactly 2–3 points
-8–18 words each
-what_this_may_open_up.points
-exactly 2 points
-10–20 words each
-====================
-INPUT
-{
-"scores": {
-"identity_clarity": X,
-"value_articulation": X,
-"evidence_visibility": X,
-"signature_strength_recognition": X,
-"trust_pattern_awareness": X,
-"positioning_strength": X,
-"next_move_clarity": X,
-"leverage_utilization": X
-}
+/**
+ * DETERMINISTIC DIAGNOSTIC ENGINE
+ * Runs locally to determine patterns, stripping heavy computation load away from the LLM.
+ */
+function computeDiagnostic(rawScores) {
+  // Map incoming schema names to internal shorthand names
+  const scores = {
+    identity: parseFloat(rawScores.identity_clarity),
+    value: parseFloat(rawScores.value_articulation),
+    evidence: parseFloat(rawScores.evidence_visibility),
+    strengths: parseFloat(rawScores.signature_strength_recognition),
+    trust: parseFloat(rawScores.trust_pattern_awareness),
+    positioning: parseFloat(rawScores.positioning_strength),
+    next_move: parseFloat(rawScores.next_move_clarity),
+    leverage: parseFloat(rawScores.leverage_utilization),
+  };
+
+  const keys = Object.keys(scores);
+  const highTieBreakOrder = { strengths: 1, value: 2, positioning: 3, next_move: 4, trust: 5, identity: 6, evidence: 7, leverage: 8 };
+  const lowTieBreakOrder = { identity: 1, evidence: 2, leverage: 3, trust: 4, positioning: 5, value: 6, strengths: 7, next_move: 8 };
+  const contradictionPriority = {
+    high_capability_low_leverage: 1,
+    high_positioning_low_evidence: 2,
+    high_value_low_evidence: 3,
+    high_value_low_leverage: 4,
+    high_next_move_low_identity: 5,
+    high_positioning_low_identity: 6,
+    high_trust_low_positioning: 7
+  };
+
+  const pairs = [
+    { key: 'high_capability_low_leverage', a: 'strengths', b: 'leverage' },
+    { key: 'high_positioning_low_evidence', a: 'positioning', b: 'evidence' },
+    { key: 'high_value_low_evidence', a: 'value', b: 'evidence' },
+    { key: 'high_value_low_leverage', a: 'value', b: 'leverage' },
+    { key: 'high_next_move_low_identity', a: 'next_move', b: 'identity' },
+    { key: 'high_positioning_low_identity', a: 'positioning', b: 'identity' },
+    { key: 'high_trust_low_positioning', a: 'trust', b: 'positioning' }
+  ];
+
+  const patternMap = {
+    high_capability_low_leverage: 'under_deployed',
+    high_positioning_low_evidence: 'visible_under_proven',
+    high_value_low_evidence: 'narrative_under_proven',
+    high_value_low_leverage: 'clear_but_under_deployed',
+    high_next_move_low_identity: 'direction_without_foundation',
+    high_positioning_low_identity: 'visible_weak_foundation',
+    high_trust_low_positioning: 'trusted_under_positioned'
+  };
+
+  const getBand = (score) => {
+    if (score <= 3) return 'low';
+    if (score <= 6) return 'mid';
+    if (score <= 8) return 'high';
+    return 'very_high';
+  };
+
+  const getBandWeight = (bandA, bandB) => {
+    const sortedPair = [bandA, bandB].sort().join('_');
+    if (sortedPair === 'high_low') return 3;
+    if (sortedPair === 'low_mid') return 2;
+    if (sortedPair === 'high_mid') return 1;
+    if (sortedPair === 'low_very_high' || sortedPair === 'mid_very_high') return 4;
+    return 0;
+  };
+
+  // Top Assets
+  const topAssets = [...keys].sort((a, b) => {
+    if (scores[a] === scores[b]) return highTieBreakOrder[a] - highTieBreakOrder[b];
+    return scores[b] - scores[a];
+  }).slice(0, 3);
+
+  // Weakest Areas
+  const weakestAreas = [...keys].sort((a, b) => {
+    if (scores[a] === scores[b]) return lowTieBreakOrder[a] - lowTieBreakOrder[b];
+    return scores[a] - scores[b];
+  }).slice(0, 3);
+
+  // Contradiction Matrix
+  const contradictionScores = pairs.map(pair => {
+    const gap = Math.abs(scores[pair.a] - scores[pair.b]);
+    const weight = getBandWeight(getBand(scores[pair.a]), getBand(scores[pair.b]));
+    return { key: pair.key, gap, weight, total: gap + weight };
+  });
+
+  contradictionScores.sort((a, b) => {
+    if (a.total !== b.total) return b.total - a.total;
+    if (a.gap !== b.gap) return b.gap - a.gap;
+    return contradictionPriority[a.key] - contradictionPriority[b.key];
+  });
+
+  const dominantContradiction = contradictionScores[0].key;
+  const secondaryContradiction = contradictionScores[1].key;
+  const patternFamily = patternMap[dominantContradiction];
+
+  // Structural Macro State Clusters
+  const stateGroups = {
+    clarity: ['identity', 'value', 'strengths', 'next_move'],
+    visibility: ['trust', 'positioning'],
+    extraction: ['evidence'],
+    deployment: ['leverage']
+  };
+
+  const stateScores = {};
+  for (const [state, items] of Object.entries(stateGroups)) {
+    const sum = items.reduce((acc, item) => acc + scores[item], 0);
+    stateScores[state] = parseFloat((sum / items.length).toFixed(2));
+  }
+
+  const sortedStates = Object.keys(stateScores).sort((a, b) => stateScores[b] - stateScores[a]);
+  const systemicTension = `${sortedStates[0]}_vs_${sortedStates[sortedStates.length - 1]}`;
+
+  return {
+    top_assets: topAssets,
+    weakest_areas: weakestAreas,
+    dominant_contradiction: dominantContradiction,
+    secondary_contradiction: secondaryContradiction,
+    pattern_family: patternFamily,
+    systemic_tension: systemicTension
+  };
 }
 
+const SYSTEM_PROMPT = `
+You are a professional leverage pattern interpreter.
+
+This is NOT coaching, therapy, or personality analysis.
+Your job is to interpret professional leverage patterns from a precomputed structural diagnostic.
+
+IMPORTANT:
+The structural analysis has already been computed.
+Do NOT recalculate:
+- top assets
+- weakest areas
+- contradictions
+- pattern family
+- systemic tension
+
+Treat them as fixed. Use the raw scores only for nuance.
+
+Your job is to interpret:
+- leverage blind spots
+- positioning gaps
+- identity gaps
+- hidden value zones
+- strategic friction
+- under-recognized strengths
+
+Your outputs must be: precise, sharp, bounded, deterministic, and commercially relevant.
+Do NOT invent career specifics, infer industries/roles, advise, prescribe, or coach. Interpret only.
+
+====================
+INPUT CONTRACT
+====================
+You will receive:
+{
+  "scores": {
+    "identity_clarity": X,
+    "value_articulation": X,
+    "evidence_visibility": X,
+    "signature_strength_recognition": X,
+    "trust_pattern_awareness": X,
+    "positioning_strength": X,
+    "next_move_clarity": X,
+    "leverage_utilization": X
+  },
+  "computed_pattern": {
+    "top_assets": [],
+    "weakest_areas": [],
+    "dominant_contradiction": "",
+    "secondary_contradiction": "",
+    "pattern_family": "",
+    "systemic_tension": ""
+  }
+}
+
+computed_pattern is authoritative. Use it as the structural truth. Scores provide nuance only.
+
+====================
+DEPTH RULES
+====================
+All sections must interpret relationships, not summarize scores.
+Translate patterns into tension, friction, leverage gaps, proof gaps, identity gaps, trust gaps, positioning distortion, or hidden value.
+
+Do NOT restate raw scores.
+Bad: "Positioning is high and evidence is low."
+Good: "The external story appears stronger than the proof beneath it."
+
+Each section must add new interpretive value. Do NOT repeat the same insight across sections. Each section must go deeper.
+
+====================
+SECTION ROLES & LENGTH RULES
+====================
+your_pattern.value:
+- Compress dominant contradiction + pattern family.
+- 2–5 words.
+
+your_pattern.summary:
+- Array containing exactly 2 strings. Each string is a brief baseline observation summary.
+
+what_this_pattern_suggests.short:
+- Array containing exactly 3 strings. Each string must be a single complete sentence stating the core tension. Max 70 words total across all 3 strings.
+
+what_this_pattern_suggests.expanded:
+- Array containing exactly 7 strings. Each string must be a single complete sentence explaining internal mechanics. Max 22 words per string. Max 160 words total.
+- At least 4 strings must explicitly connect two categories.
+- At least 3 strings must describe structural tension/mismatch.
+- At least 1 string must pinpoint the dominant contradiction.
+- Preferred verbs: outpaces, lags behind, sits ahead of, is undercut by, is not matched by, creates friction with, is not yet backed by, compounds slower than.
+
+what_may_be_quietly_costing_you.points:
+- Array containing exactly 2 strings revealing practical friction.
+- 8–18 words per string.
+
+where_hidden_value_may_be_sitting.points:
+- Array containing exactly 3 strings revealing trapped unrealized leverage.
+- 8–18 words per string.
+
+what_this_may_open_up.points:
+- Array containing exactly 2 strings outlining structural clarity outcomes.
+- 10–20 words per string.
+
+====================
+OUTPUT FORMAT
+====================
+Return ONLY valid JSON matching this layout. Do not return prose or markdown wrapper blocks outside of the JSON payload object.
 `;
-;
 
 const RESPONSE_FORMAT = {
   type: "json_schema",
@@ -287,7 +266,6 @@ const RESPONSE_FORMAT = {
         },
         required: ["title", "value", "summary"],
       },
-
       what_this_pattern_suggests: {
         type: "object",
         additionalProperties: false,
@@ -308,7 +286,6 @@ const RESPONSE_FORMAT = {
         },
         required: ["title", "short", "expanded"],
       },
-
       what_may_be_quietly_costing_you: {
         type: "object",
         additionalProperties: false,
@@ -323,7 +300,6 @@ const RESPONSE_FORMAT = {
         },
         required: ["title", "points"],
       },
-
       where_hidden_value_may_be_sitting: {
         type: "object",
         additionalProperties: false,
@@ -338,7 +314,6 @@ const RESPONSE_FORMAT = {
         },
         required: ["title", "points"],
       },
-
       what_this_may_open_up: {
         type: "object",
         additionalProperties: false,
@@ -353,7 +328,6 @@ const RESPONSE_FORMAT = {
         },
         required: ["title", "points"],
       },
-
       audit_bridge: {
         type: "object",
         additionalProperties: false,
@@ -384,7 +358,6 @@ function validateScores(scores) {
   if (!scores || typeof scores !== "object" || Array.isArray(scores)) {
     return false;
   }
-
   return REQUIRED_SCORE_KEYS.every((key) => {
     const value = scores[key];
     return Number.isInteger(value) && value >= 1 && value <= 10;
@@ -392,10 +365,13 @@ function validateScores(scores) {
 }
 
 function extractOutputText(response) {
+  // Gracefully handle Standard Completions or Structured Outputs architecture payloads
+  if (response.choices?.[0]?.message?.content) {
+    return response.choices[0].message.content;
+  }
   if (response.output_text) {
     return response.output_text;
   }
-
   const textItem = response.output
     ?.flatMap((item) => item.content || [])
     .find((content) => content.type === "output_text" && content.text);
@@ -419,24 +395,36 @@ module.exports = async function handler(req, res) {
   }
 
   try {
-    const requestedModel = process.env.OPENAI_MODEL || "gpt-5";
-    const openaiStartedAt = Date.now();
-    const response = await client.responses.create({
-      model: requestedModel,
-      reasoning: { effort: "minimal" },
-      instructions: SYSTEM_PROMPT,
-      input: [
-        {
-          role: "user",
-          content: JSON.stringify({ scores }),
-        },
-      ],
-      text: {
-        format: RESPONSE_FORMAT,
-      },
-    });
-    const openaiMs = Date.now() - openaiStartedAt;
+    // 1. Run local diagnostic compute engine to offload logic from the AI
+    const computedPattern = computeDiagnostic(scores);
 
+    // 2. Assemble streamlined context wrapper contract matching the system blueprint instructions
+    const aiPayloadInput = {
+      scores: scores,
+      computed_pattern: computedPattern
+    };
+
+    const requestedModel = process.env.OPENAI_MODEL || "gpt-4o";
+    const openaiStartedAt = Date.now();
+
+    // 3. Initiate Chat Completion request targeting structured JSON constraints
+    const response = await client.chat.completions.create({
+    model: requestedModel,
+    messages: [
+      { role: "system", content: SYSTEM_PROMPT },
+      { role: "user", content: JSON.stringify(aiPayloadInput) }
+    ],
+    response_format: {
+      type: "json_schema",
+      json_schema: {
+        name: RESPONSE_FORMAT.name,
+        strict: RESPONSE_FORMAT.strict,
+        schema: RESPONSE_FORMAT.schema
+      }
+    },
+  });
+    
+    const openaiMs = Date.now() - openaiStartedAt;
     const output = extractOutputText(response);
 
     if (!output) {
@@ -447,7 +435,7 @@ module.exports = async function handler(req, res) {
     const interpretation = JSON.parse(output);
     const parseMs = Date.now() - parseStartedAt;
     const totalMs = Date.now() - requestStartedAt;
-    const requestId = response._request_id || response.id || "unknown";
+    const requestId = response.id || "unknown";
     const usage = response.usage || {};
 
     res.setHeader?.(
@@ -464,10 +452,8 @@ module.exports = async function handler(req, res) {
         totalMs,
         openaiMs,
         parseMs,
-        inputTokens: usage.input_tokens,
-        cachedInputTokens: usage.input_tokens_details?.cached_tokens,
-        outputTokens: usage.output_tokens,
-        reasoningTokens: usage.output_tokens_details?.reasoning_tokens,
+        inputTokens: usage.prompt_tokens,
+        outputTokens: usage.completion_tokens,
         totalTokens: usage.total_tokens,
       })
     );
