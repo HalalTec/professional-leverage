@@ -54,7 +54,7 @@ export const decodeResultPayload = (payload) => {
   if (!payload || payload.length > MAX_RESULT_PAYLOAD_LENGTH) throw new Error("The result URL is invalid.");
   const json = new TextDecoder().decode(pako.inflateRaw(fromBase64Url(payload)));
   const packed = JSON.parse(json);
-  if (!Array.isArray(packed) || packed[0] !== 1 || !Array.isArray(packed[1]) || packed[1].length !== 8 || !Array.isArray(packed[2]) || packed[2].length !== 6) {
+  if (!Array.isArray(packed) || packed[0] !== 1 || !Array.isArray(packed[1]) || packed[1].length !== 8 || !Array.isArray(packed[2]) || packed[2].length !== 5) {
     throw new Error("The result URL has an unsupported format.");
   }
   const scores = Object.fromEntries(SCORE_KEYS.map((key, index) => [key, Number(packed[1][index])]));
